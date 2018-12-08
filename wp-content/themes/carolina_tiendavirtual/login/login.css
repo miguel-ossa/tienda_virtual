@@ -1,0 +1,59 @@
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(../img/bg.jpg);
+    background-size: cover;
+}
+
+.login h1 a {
+    background-image: url(../img/logo_admin.png);
+    margin: 0;
+    width: 100%;
+    background-size: 200px;
+    height: 120px;
+    background-position: center center;
+}
+
+.login label {
+    color: black;
+}
+
+.login #backtoblog a,
+.login #nav a {
+    color: white;
+    font-weight: 600;
+}
+
+.login #backtoblog,
+.login #nav {
+    text-align: center;
+}
+
+.login .button-primary,
+.login .button-primary:active,
+.login .button-primary:focus {
+    background-color: #e182a8;
+    border: 0;
+    text-shadow: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 5px 30px!important;
+    height: auto!important;
+    width: 100%;
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+.login .button-primary:hover {
+    background-color: #c8698f;
+}
+
+.login form,
+.login .message,
+.login #login_error {
+    -webkit-box-shadow: 10px 15px 13px -7px rgba(0,0,0,0.68);
+-moz-box-shadow: 10px 15px 13px -7px rgba(0,0,0,0.68);
+box-shadow: 10px 15px 13px -7px rgba(0,0,0,0.68);
+}
+
+.login a {
+    color: #e182a8;
+}

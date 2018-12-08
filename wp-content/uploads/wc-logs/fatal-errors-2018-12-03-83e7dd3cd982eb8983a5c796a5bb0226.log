@@ -1,0 +1,8 @@
+2018-12-03T08:14:55+00:00 CRITICAL Can't use function return value in write context en D:\MAMP\htdocs\tienda_virtual\wp-content\themes\carolina_tiendavirtual\functions.php en la línea 185
+
+2018-12-03T08:18:28+00:00 CRITICAL syntax error, unexpected '{', expecting '(' en D:\MAMP\htdocs\tienda_virtual\wp-content\themes\carolina_tiendavirtual\functions.php en la línea 185
+
+2018-12-03T08:21:22+00:00 CRITICAL syntax error, unexpected end of file, expecting variable (T_VARIABLE) or ${ (T_DOLLAR_OPEN_CURLY_BRACES) or {$ (T_CURLY_OPEN) en D:\MAMP\htdocs\tienda_virtual\wp-content\themes\carolina_tiendavirtual\functions.php en la línea 199
+
+2018-12-03T08:50:10+00:00 CRITICAL Cannot use isset() on the result of an expression (you can use "null !== expression" instead) en D:\MAMP\htdocs\tienda_virtual\wp-content\themes\carolina_tiendavirtual\functions.php en la línea 217
+

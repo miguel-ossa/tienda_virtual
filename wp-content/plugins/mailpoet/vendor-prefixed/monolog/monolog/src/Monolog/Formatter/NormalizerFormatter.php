@@ -105,7 +105,7 @@ class NormalizerFormatter implements \MailPoetVendor\Monolog\Formatter\Formatter
             throw new \InvalidArgumentException('Exception/Throwable expected, got ' . \gettype($e) . ' / ' . \MailPoetVendor\Monolog\Utils::getClass($e));
         }
         $data = array('class' => \MailPoetVendor\Monolog\Utils::getClass($e), 'message' => $e->getMessage(), 'code' => $e->getCode(), 'file' => $e->getFile() . ':' . $e->getLine());
-        if ($e instanceof \SoapFault) {
+        if ($e instanceof \MailPoetVendor\SoapFault) {
             if (isset($e->faultcode)) {
                 $data['faultcode'] = $e->faultcode;
             }

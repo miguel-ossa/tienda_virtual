@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Themes - Twenty Nineteen package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-12-03 17:02:57+0000\n"
+"PO-Revision-Date: 2019-01-14 20:14:18+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,13 +11,18 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: Themes - Twenty Nineteen\n"
 
+#. Description of the theme
+msgid "Our 2019 default theme is designed to show off the power of the block editor. It features custom styles for all the default blocks, and is built so that what you see in the editor looks like what you'll see on your website. Twenty Nineteen is designed to be adaptable to a wide range of websites, whether you’re running a photo blog, launching a new business, or supporting a non-profit. Featuring ample whitespace and modern sans-serif headlines paired with classic serif body text, it's built to be beautiful on all screen sizes."
+msgstr "Nuestro tema por defecto de 2019 se ha diseñado para mostrar la potencia del editor de bloques. Tiene estilos personalizados para todos los bloques por defecto, y está creado para que lo que se vea en el editor sea igual que lo que se ve en tu sitio web. Twenty Nineteen está diseñado para adaptarse a un amplio abanico de sitios web, ya tengas un fotoblog, estés lanzando un nuevo negocio o apoyando a una organización sin ánimo de lucro. Con un diseño de amplios espacios y modernos titulares sans serif a juego con textos con serif clásico, está hecho para ser bello en todos los tamaños de pantalla."
+
 #. Theme Name of the theme
 msgid "Twenty Nineteen"
 msgstr "Twenty Nineteen"
 
-#. Description of the theme
-msgid "A new Gutenberg-ready theme."
-msgstr "Un nuevo tema preparado para Gutenberg."
+#. translators: %s: parent post link
+#: single.php:31
+msgid "<span class=\"meta-nav\">Published in</span><span class=\"post-title\">%s</span>"
+msgstr "<span class=\"meta-nav\">Publicado en</span> <span class=\"post-title\">%s</span>"
 
 #: image.php:87
 msgctxt "Parent post link"
@@ -28,11 +33,11 @@ msgstr "<span class=\"meta-nav\">Publicado en </span><br><span class=\"post-titl
 msgid "Twenty Nineteen requires at least WordPress version 4.7. You are running version %s. Please upgrade and try again."
 msgstr "Twenty Nineteen requiere al menos la versión 4.7 de WordPress. Se está ejecutando la versión %s. Por favor, actualiza y vuelve a intentarlo."
 
-#: inc/template-functions.php:219
+#: inc/template-functions.php:216
 msgid "Back"
 msgstr "Volver"
 
-#: inc/template-functions.php:211
+#: inc/template-functions.php:209
 msgid "More"
 msgstr "Más"
 
@@ -153,9 +158,9 @@ msgstr "Menú de enlaces sociales"
 msgid "Skip to content"
 msgstr "Ir al contenido"
 
-#: image.php:52 template-parts/content/content.php:49
+#: image.php:52 template-parts/content/content-page.php:27
+#: template-parts/content/content.php:49
 #: template-parts/content/content-single.php:40
-#: template-parts/content/content-page.php:27
 msgid "Pages:"
 msgstr "Páginas:"
 
@@ -189,22 +194,17 @@ msgstr "Menú superior"
 msgid ", "
 msgstr ", "
 
-#: single.php:37
+#: single.php:38
 msgid "Next Post"
 msgstr "Siguiente entrada"
 
-#: single.php:41
+#: single.php:42
 msgid "Previous post:"
 msgstr "Entrada anterior:"
 
-#: single.php:38
+#: single.php:39
 msgid "Next post:"
 msgstr "Siguiente entrada:"
-
-#: single.php:30
-msgctxt "Parent post link"
-msgid "<span class=\"meta-nav\">Published in</span><br/><span class=\"post-title\">%title</span>"
-msgstr "<span class=\"meta-nav\">Publicado en</span><span class=\"post-title\">%title</span>"
 
 #: template-parts/post/discussion-meta.php:18
 msgid "No comments"
@@ -217,19 +217,20 @@ msgid_plural "%d Comments"
 msgstr[0] "%d comentario"
 msgstr[1] "%d comentarios"
 
-#: template-parts/post/author-bio.php:13
+#. translators: %s: post author
+#: template-parts/post/author-bio.php:17
 msgid "Published by %s"
 msgstr "Publicado por %s"
 
-#: single.php:40
+#: single.php:41
 msgid "Previous Post"
 msgstr "Entrada anterior"
 
-#: inc/template-tags.php:232
+#: inc/template-tags.php:234
 msgid "Older posts"
 msgstr "Entradas más antiguas"
 
-#: inc/template-tags.php:231
+#: inc/template-tags.php:230
 msgid "Newer posts"
 msgstr "Entradas más recientes"
 
@@ -252,10 +253,10 @@ msgctxt "yearly archives date format"
 msgid "Y"
 msgstr "Y"
 
-#. translators: %s: Name of current post. Only visible to screen readers.
 #. translators: %s: Name of current post. Only visible to screen readers
-#: inc/template-tags.php:120 template-parts/content/content-page.php:41
-#: template-parts/header/entry-header.php:32
+#. translators: %s: Name of current post. Only visible to screen readers.
+#: template-parts/content/content-page.php:41
+#: template-parts/header/entry-header.php:32 inc/template-tags.php:120
 msgid "Edit <span class=\"screen-reader-text\">%s</span>"
 msgstr "Editar <span class=\"screen-reader-text\">%s</span>"
 
@@ -275,21 +276,20 @@ msgstr[1] "%1$s respuestas a &ldquo;%2$s&rdquo;"
 msgid "Leave a comment"
 msgstr "Deja un comentario"
 
-#: classes/class-twentynineteen-walker-comment.php:87
+#: classes/class-twentynineteen-walker-comment.php:100
 msgid "Your comment is awaiting moderation."
 msgstr "Tu comentario está pendiente de moderación."
 
-#: classes/class-twentynineteen-walker-comment.php:82
+#: classes/class-twentynineteen-walker-comment.php:95
 msgid "Edit"
 msgstr "Editar"
 
 #. translators: 1: comment date, 2: comment time
-#: classes/class-twentynineteen-walker-comment.php:74
+#: classes/class-twentynineteen-walker-comment.php:87
 msgid "%1$s at %2$s"
 msgstr "%1$s a las %2$s"
 
-#. translators: %s: comment author link
-#: classes/class-twentynineteen-walker-comment.php:60
+#: classes/class-twentynineteen-walker-comment.php:67
 msgid "%s <span class=\"screen-reader-text says\">says:</span>"
 msgstr "%s <span class=\"screen-reader-text says\">dice:</span>"
 
@@ -317,7 +317,7 @@ msgstr "Una respuesta a &ldquo;%s&rdquo;"
 msgid "Join the Conversation"
 msgstr "Únete a la conversación"
 
-#: template-parts/post/author-bio.php:18
+#: template-parts/post/author-bio.php:26
 msgid "View more posts"
 msgstr "Ver más entradas"
 

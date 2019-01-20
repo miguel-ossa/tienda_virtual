@@ -34,14 +34,17 @@ if(!defined('ABSPATH')) exit;
 
 class Menu {
   const MAIN_PAGE_SLUG = 'mailpoet-newsletters';
+  const LAST_ANNOUNCEMENT_DATE = '2018-12-18 10:00:00';
 
   public $renderer;
   private $access_control;
   private $subscribers_over_limit;
+  private $wp;
 
   function __construct($renderer, AccessControl $access_control) {
     $this->renderer = $renderer;
     $this->access_control = $access_control;
+    $this->wp = new WPFunctions;
   }
 
   function init() {
@@ -372,7 +375,7 @@ class Menu {
     $data['is_old_user'] = false;
     if(!empty($data['settings']['installed_at'])) {
       $installed_at = Carbon::createFromTimestamp(strtotime($data['settings']['installed_at']));
-      $current_time = Carbon::createFromTimestamp(WPFunctions::currentTime('timestamp'));
+      $current_time = Carbon::createFromTimestamp($this->wp->currentTime('timestamp'));
       $data['is_new_user'] = $current_time->diffInDays($installed_at) <= 30;
       $data['is_old_user'] = $current_time->diffInMonths($installed_at) >= 6;
       $data['stop_call_for_rating'] = isset($data['settings']['stop_call_for_rating']) ? $data['settings']['stop_call_for_rating'] : false;
@@ -563,9 +566,13 @@ class Menu {
     $data['segments'] = $segments;
     $data['settings'] = Setting::getAll();
     $data['current_wp_user'] = wp_get_current_user()->to_array();
+    $data['current_wp_user_firstname'] = wp_get_current_user()->user_firstname;
     $data['site_url'] = site_url();
     $data['roles'] = $wp_roles->get_names();
     $data['roles']['mailpoet_all'] = __('In any WordPress role', 'mailpoet');
+
+    $installedAtDateTime = new \DateTime($data['settings']['installed_at']);
+    $data['installed_days_ago'] = (int)$installedAtDateTime->diff(new \DateTime())->format('%a');
 
     $date_time = new DateTime();
     $data['current_date'] = $date_time->getCurrentDate(DateTime::DEFAULT_DATE_FORMAT);
@@ -581,6 +588,11 @@ class Menu {
     $data['tracking_enabled'] = Setting::getValue('tracking.enabled');
     $data['premium_plugin_active'] = License::getLicense();
     $data['is_woocommerce_active'] = class_exists('WooCommerce');
+
+    $user_id = $data['current_wp_user']['ID'];
+    $data['feature_announcement_has_news'] = empty($data['settings']['last_announcement_seen'][$user_id])
+      || $data['settings']['last_announcement_seen'][$user_id] < strtotime(self::LAST_ANNOUNCEMENT_DATE);
+    $data['last_announcement_seen'] = isset($data['settings']['last_announcement_seen']) ? $data['settings']['last_announcement_seen'] : false;
 
     $data['automatic_emails'] = array(
       array(
@@ -816,7 +828,7 @@ class Menu {
       return true;
     }
     $installed_at = Carbon::createFromTimestamp(strtotime($installed_at));
-    $current_time = Carbon::createFromTimestamp(WPFunctions::currentTime('timestamp'));
+    $current_time = Carbon::createFromTimestamp($this->wp->currentTime('timestamp'));
     return $current_time->diffInDays($installed_at) <= 30;
   }
 }

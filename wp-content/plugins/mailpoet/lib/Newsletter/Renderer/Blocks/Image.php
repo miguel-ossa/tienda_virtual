@@ -14,11 +14,16 @@ class Image {
       $element['src'] = get_option('siteurl') . $element['src'];
     }
 
-    $element['width'] = (int)$element['width'];
-    $element['height'] = (int)$element['height'];
-    $element = self::adjustImageDimensions($element, $column_base_width);
+    $element['width'] = str_replace('px', '', $element['width']);
+    $element['height'] = str_replace('px', '', $element['height']);
+    if(is_numeric($element['width']) && is_numeric($element['height'])) {
+      $element['width'] = (int)$element['width'];
+      $element['height'] = (int)$element['height'];
+      $element = self::adjustImageDimensions($element, $column_base_width);
+    }
+
     $image_template = '
-      <img style="max-width:' . $element['width'] . 'px;" src="' . $element['src'] . '"
+      <img src="' . $element['src'] . '"
       width="' . $element['width'] . '" alt="' . $element['alt'] . '"/>
       ';
     if(!empty($element['link'])) {
@@ -30,7 +35,7 @@ class Image {
     }
     $template = '
       <tr>
-        <td class="mailpoet_image ' . (($element['fullWidth'] === false) ? 'mailpoet_padded_bottom mailpoet_padded_side' : '') . '" align="' . $align . '" valign="top">
+        <td class="mailpoet_image ' . (($element['fullWidth'] === false) ? 'mailpoet_padded_bottom mailpoet_padded_side' : 'mailpoet_full_width_image') . '" align="' . $align . '" valign="top">
           ' . $image_template . '
         </td>
       </tr>';

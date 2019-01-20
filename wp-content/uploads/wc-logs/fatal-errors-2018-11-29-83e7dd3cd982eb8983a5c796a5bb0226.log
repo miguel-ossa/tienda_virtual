@@ -1,4 +1,0 @@
-2018-11-29T10:17:29+00:00 CRITICAL syntax error, unexpected '<' en D:\MAMP\htdocs\tienda_virtual\wp-content\themes\carolina_tiendavirtual\functions.php en la línea 93
-
-2018-11-29T17:39:01+00:00 CRITICAL syntax error, unexpected '$precio_regular' (T_VARIABLE), expecting '(' en D:\MAMP\htdocs\tienda_virtual\wp-content\themes\carolina_tiendavirtual\functions.php en la línea 116
-

@@ -8,6 +8,11 @@
 // }
 // add_filter('woocommerce_product_add_to_cart_text', 'carolinaspa_cambiar_agregar_carrito');
 // add_filter('woocommerce_product_single_add_to_cart_text', 'carolinaspa_cambiar_agregar_carrito');
+// function carolinaspa_service_worker() {
+//     wp_enqueue_script( 'navigator.serviceWorker', get_template_directory_uri() . '/js/sw.js');
+// }
+
+// add_action('wp_enqueue_scripts','carolinaspa_service_worker');
 
 function carolinaspa_admin_estilos() {
     wp_enqueue_style('admin-estilos', get_stylesheet_directory_uri() . '/login/login.css');

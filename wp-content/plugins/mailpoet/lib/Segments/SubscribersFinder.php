@@ -6,29 +6,35 @@ use MailPoet\Models\ScheduledTask;
 use MailPoet\Models\ScheduledTaskSubscriber;
 use MailPoet\Models\Segment;
 use MailPoet\Models\Subscriber;
-use MailPoet\WP\Hooks;
+use MailPoet\WP\Functions as WPFunctions;
 use function MailPoet\Util\array_column;
 
 class SubscribersFinder {
 
+  private $wp;
+
+  function __construct() {
+    $this->wp = new WPFunctions;
+  }
+
   function findSubscribersInSegments($subscribers_to_process_ids, $newsletter_segments_ids) {
     $result = array();
-    foreach($newsletter_segments_ids as $segment_id) {
-      $segment = Segment::find_one($segment_id);
+    foreach ($newsletter_segments_ids as $segment_id) {
+      $segment = Segment::findOne($segment_id);
       $result = array_merge($result, $this->findSubscribersInSegment($segment, $subscribers_to_process_ids));
     }
     return $this->unique($result);
   }
 
   private function findSubscribersInSegment(Segment $segment, $subscribers_to_process_ids) {
-    if($this->isStaticSegment($segment)) {
+    if ($this->isStaticSegment($segment)) {
       $subscribers = Subscriber::findSubscribersInSegments($subscribers_to_process_ids, array($segment->id))->findMany();
       return Subscriber::extractSubscribersIds($subscribers);
     }
-    $finders = Hooks::applyFilters('mailpoet_get_subscribers_in_segment_finders', array());
-    foreach($finders as $finder) {
+    $finders = $this->wp->applyFilters('mailpoet_get_subscribers_in_segment_finders', array());
+    foreach ($finders as $finder) {
       $subscribers = $finder->findSubscribersInSegment($segment, $subscribers_to_process_ids);
-      if($subscribers) {
+      if ($subscribers) {
         return Subscriber::extractSubscribersIds($subscribers);
       }
     }
@@ -36,25 +42,25 @@ class SubscribersFinder {
   }
 
   private function isStaticSegment(Segment $segment) {
-    return $segment->type === Segment::TYPE_DEFAULT || $segment->type === Segment::TYPE_WP_USERS;
+    return in_array($segment->type, [Segment::TYPE_DEFAULT, Segment::TYPE_WP_USERS, Segment::TYPE_WC_USERS], true);
   }
 
   function addSubscribersToTaskFromSegments(ScheduledTask $task, array $segments) {
     // Prepare subscribers on the DB side for performance reasons
     $staticSegments = array();
     $dynamicSegments = array();
-    foreach($segments as $segment) {
-      if($this->isStaticSegment($segment)) {
+    foreach ($segments as $segment) {
+      if ($this->isStaticSegment($segment)) {
         $staticSegments[] = $segment;
       } else {
         $dynamicSegments[] = $segment;
       }
     }
     $count = 0;
-    if(!empty($staticSegments)) {
+    if (!empty($staticSegments)) {
       $count += $this->addSubscribersToTaskFromStaticSegments($task, $staticSegments);
     }
-    if(!empty($dynamicSegments)) {
+    if (!empty($dynamicSegments)) {
       $count += $this->addSubscribersToTaskFromDynamicSegments($task, $dynamicSegments);
     }
     return $count;
@@ -86,18 +92,18 @@ class SubscribersFinder {
 
   private function addSubscribersToTaskFromDynamicSegments(ScheduledTask $task, array $segments) {
     $count = 0;
-    foreach($segments as $segment) {
+    foreach ($segments as $segment) {
       $count += $this->addSubscribersToTaskFromDynamicSegment($task, $segment);
     }
     return $count;
   }
 
   private function addSubscribersToTaskFromDynamicSegment(ScheduledTask $task, Segment $segment) {
-    $finders = Hooks::applyFilters('mailpoet_get_subscribers_in_segment_finders', array());
+    $finders = $this->wp->applyFilters('mailpoet_get_subscribers_in_segment_finders', array());
     $count = 0;
-    foreach($finders as $finder) {
+    foreach ($finders as $finder) {
       $subscribers = $finder->getSubscriberIdsInSegment($segment);
-      if($subscribers) {
+      if ($subscribers) {
         $count += $this->addSubscribersToTaskByIds($task, $subscribers);
       }
     }
@@ -125,10 +131,10 @@ class SubscribersFinder {
 
   private function unique($subscribers) {
     $result = array();
-    foreach($subscribers as $subscriber) {
-      if(is_a($subscriber, 'MailPoet\Models\Model')) {
+    foreach ($subscribers as $subscriber) {
+      if (is_a($subscriber, 'MailPoet\Models\Model')) {
         $result[$subscriber->id] = $subscriber;
-      } elseif(is_scalar($subscriber)) {
+      } elseif (is_scalar($subscriber)) {
         $result[$subscriber] = $subscriber;
       } else {
         $result[$subscriber['id']] = $subscriber;

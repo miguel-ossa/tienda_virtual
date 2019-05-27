@@ -4,7 +4,7 @@ namespace MailPoet\Services\Release;
 
 use MailPoet\WP\Functions as WPFunctions;
 
-if(!defined('ABSPATH')) exit;
+if (!defined('ABSPATH')) exit;
 
 class API {
   private $api_key;
@@ -22,9 +22,9 @@ class API {
     );
 
     $code = $this->wp->wpRemoteRetrieveResponseCode($result);
-    switch($code) {
+    switch ($code) {
       case 200:
-        if($body = $this->wp->wpRemoteRetrieveBody($result)) {
+        if ($body = $this->wp->wpRemoteRetrieveBody($result)) {
           $body = json_decode($body);
         }
         break;

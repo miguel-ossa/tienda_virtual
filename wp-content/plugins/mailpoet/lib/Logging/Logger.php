@@ -2,6 +2,7 @@
 
 namespace MailPoet\Logging;
 
+use MailPoet\Settings\SettingsController;
 use MailPoetVendor\Monolog\Processor\IntrospectionProcessor;
 use MailPoetVendor\Monolog\Processor\MemoryUsageProcessor;
 use MailPoetVendor\Monolog\Processor\WebProcessor;
@@ -34,10 +35,10 @@ class Logger {
    * @return \MailPoetVendor\Monolog\Logger
    */
   public static function getLogger($name = 'MailPoet', $attach_processors = WP_DEBUG) {
-    if(!isset(self::$instance[$name])) {
+    if (!isset(self::$instance[$name])) {
       self::$instance[$name] = new \MailPoetVendor\Monolog\Logger($name);
 
-      if($attach_processors) {
+      if ($attach_processors) {
         // Adds the line/file/class/method from which the log call originated
         self::$instance[$name]->pushProcessor(new IntrospectionProcessor());
         // Adds the current request URI, request method and client IP to a log record
@@ -52,8 +53,9 @@ class Logger {
   }
 
   private static function getDefaultLogLevel() {
-    $settings = Setting::getValue('logging', 'errors');
-    switch ($settings) {
+    $settings = new SettingsController();
+    $log_level = $settings->get('logging', 'errors');
+    switch ($log_level) {
       case 'everything':
         return \MailPoetVendor\Monolog\Logger::DEBUG;
       case 'nothing':

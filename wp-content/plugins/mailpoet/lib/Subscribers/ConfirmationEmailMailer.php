@@ -3,29 +3,50 @@
 namespace MailPoet\Subscribers;
 
 use MailPoet\Mailer\Mailer;
-use MailPoet\Models\Setting;
 use MailPoet\Models\Subscriber;
+use MailPoet\Settings\SettingsController;
 use MailPoet\Subscription\Url;
 use MailPoet\Util\Helpers;
+use MailPoet\WP\Functions as WPFunctions;
 
 class ConfirmationEmailMailer {
+
+  const MAX_CONFIRMATION_EMAILS = 3;
 
   /** @var Mailer */
   private $mailer;
 
+  /** @var WPFunctions */
+  private $wp;
+
+  /** @var SettingsController */
+  private $settings;
+
   /**
    * @param Mailer|null $mailer
    */
-  function __construct($mailer = null) {
-    if($mailer) {
+  function __construct($mailer = null, WPFunctions $wp = null) {
+    if ($mailer) {
       $this->mailer = $mailer;
     }
+    if ($wp) {
+      $this->wp = $wp;
+    } else {
+      $this->wp = new WPFunctions;
+    }
+    $this->settings = new SettingsController();
   }
 
   function sendConfirmationEmail(Subscriber $subscriber) {
-    $signup_confirmation = Setting::getValue('signup_confirmation');
+    $signup_confirmation = $this->settings->get('signup_confirmation');
 
-    if((bool)$signup_confirmation['enabled'] === false) {
+    if ((bool)$signup_confirmation['enabled'] === false) {
+      return false;
+    }
+
+    $subscriber->count_confirmations++;
+    $subscriber->save();
+    if (!$this->wp->isUserLoggedIn() && $subscriber->count_confirmations > self::MAX_CONFIRMATION_EMAILS) {
       return false;
     }
 
@@ -76,13 +97,13 @@ class ConfirmationEmailMailer {
 
     // send email
     try {
-      if(!$this->mailer) {
+      if (!$this->mailer) {
         $this->mailer = new Mailer(false, $from, $reply_to);
       }
       $this->mailer->getSenderNameAndAddress($from);
       $this->mailer->getReplyToNameAndAddress($reply_to);
       return $this->mailer->send($email, $subscriber);
-    } catch(\Exception $e) {
+    } catch (\Exception $e) {
       $subscriber->setError($e->getMessage());
       return false;
     }

@@ -6,7 +6,7 @@ use MailPoet\Services\Bridge;
 use MailPoet\Util\License\License;
 use MailPoet\Util\pQuery\pQuery;
 
-if(!defined('ABSPATH')) exit;
+if (!defined('ABSPATH')) exit;
 
 class Renderer {
   public $blocks_renderer;
@@ -15,6 +15,9 @@ class Renderer {
   public $CSS_inliner;
   public $newsletter;
   public $preview;
+  public $premium_activated;
+  public $mss_activated;
+  private $template;
   const NEWSLETTER_TEMPLATE = 'Template.html';
   const FILTER_POST_PROCESS = 'mailpoet_rendering_post_process';
 
@@ -43,7 +46,7 @@ class Renderer {
       ? $body['globalStyles']
       : array();
 
-    if(!$this->premium_activated && !$this->mss_activated && !$this->preview) {
+    if (!$this->premium_activated && !$this->mss_activated && !$this->preview) {
       $content = $this->addMailpoetLogoContentBlock($content, $styles);
     }
 
@@ -77,8 +80,8 @@ class Renderer {
     $content_blocks = (array_key_exists('blocks', $content))
       ? $content['blocks']
       : array();
-    foreach($content_blocks as $block) {
-      if($block['type'] === 'automatedLatestContentLayout') {
+    foreach ($content_blocks as $block) {
+      if ($block['type'] === 'automatedLatestContentLayout') {
         $blocks = array_merge(
           $blocks,
           $this->blocks_renderer->automatedLatestContentTransformedPosts($block)
@@ -112,8 +115,8 @@ class Renderer {
 
   function renderStyles($styles) {
     $css = '';
-    foreach($styles as $selector => $style) {
-      switch($selector) {
+    foreach ($styles as $selector => $style) {
+      switch ($selector) {
         case 'text':
           $selector = 'td.mailpoet_paragraph, td.mailpoet_blockquote, li.mailpoet_paragraph';
           break;
@@ -150,7 +153,7 @@ class Renderer {
   function postProcessTemplate($template) {
     $DOM = $this->DOM_parser->parseStr($template);
     // replace spaces in image tag URLs
-    foreach($DOM->query('img') as $image) {
+    foreach ($DOM->query('img') as $image) {
       $image->src = str_replace(' ', '%20', $image->src);
     }
     $template = $DOM->query('.mailpoet_template');
@@ -170,7 +173,7 @@ class Renderer {
   }
 
   function addMailpoetLogoContentBlock($content, $styles) {
-    if(empty($content['blocks'])) return $content;
+    if (empty($content['blocks'])) return $content;
     $content['blocks'][] = array(
       'type' => 'container',
       'orientation' => 'horizontal',

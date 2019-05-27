@@ -3,7 +3,7 @@ Contributors: mailpoet, wysija
 Tags: email marketing, newsletter, newsletter subscribers, email, welcome email, post notification, WooCommerce emails, newsletter builder
 Requires at least: 4.7
 Tested up to: 5.0
-Stable tag: 3.17.2
+Stable tag: 3.19.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -168,6 +168,59 @@ Stop by our [support site](https://www.mailpoet.com/support).
 6. WooCommerce emails
 
 == Changelog ==
+
+= 3.19.2 - 2019-02-19 =
+* Added: 13 brand new templates;
+* Improved: TinyMCE is hidden on mouse drag;
+* Improved: block and widget controls are hidden on mouse drag;
+* Fixed: cursor position does not get lost with long text on Chrome;
+* Fixed: Mailpoet icon in the Members plugin looks good again.
+
+= 3.19.1 - 2019-02-12 =
+* Added: warning against using free email address in "from" fields;
+* Added: updated Instagram icons;
+* Added: new custom font choices;
+* Improved: new design for block controls;
+* Improved: updated width of image setting width input field for better display of 4-digit numbers;
+* Improved: wider vertical drag button for dividers;
+* Improved: align social icons left, center or right;
+* Improved: minor enhancement to controls of elements in editor;
+* Fixed: restored missing X to modal when deleting templates;
+* Fixed: minor adjustments to assist third-party plugins using MailPoet integrations incorrectly;
+* Fixed: when Post Notification send date/time are left as default, we now create a Post Notification with those settings;
+* Fixed: double click on text in TinyMCE keeps formatting.
+
+= 3.19.0 - 2019-02-05 =
+* Added: more clarity for image and column block settings. Thanks focus group testers!;
+* Added: further subscription limits to avoid subscription confirmation email abuse;
+* Updated: MailPoet's logo in footer of emails;
+* Fixed: Linux cron fatal error;
+* Fixed: JS error with WP 5.0 when adding new form;
+* Fixed: buttons in bold show as bold in settings;
+* Fixed: handling of small images with a "Full width" option enabled;
+* Fixed: link colors in text blocks are correctly shown in the inbox;
+* Fixed: announcement sidebar stays closed.
+
+= 3.18.2 - 2019-01-29 =
+* Added: by popular demand, new option to receive a summary email of a campaign's open and click rates;
+* Added: loading animation on subscription form submission;
+* Added: new modal design;
+* Added: first steps for a new WooCommerce customer list;
+* Improved: new warning before sending from a free address, like Gmail;
+* Fixed: issue with some Gutenberg blocks causing a 500 error in ALC with full posts.
+
+= 3.18.1 - 2019-01-22 =
+* Added: new assets for WP plugin repo page;
+* Added: nine shiny and new templates for standard, post notification, and WooCommerce emails;
+* Fixed: button's settings font display fits nicely again;
+* Changed: removed the requirement of having the ZIP PHP extension to use MailPoet 3;
+
+= 3.18.0 - 2019-01-15 =
+* Fixed: CSS issues in widget settings;
+* Fixed: CSS for Beamer icon on mobile;
+* Fixed: size slider issue for images without defined dimensions;
+* Fixed: images defaulted to centered in ALC blocks displaying full posts;
+* Added: poll to check status of user's first send;
 
 = 3.17.2 - 2019-01-08 =
 * Fixed: possible conflict with other plugins using webpack. Thanks, Julien;

@@ -35,7 +35,7 @@ class Scheduler {
       ]
     );
     $types = Posts::getTypes();
-    if(($new_status !== 'publish') || !isset($types[$post->post_type])) {
+    if (($new_status !== 'publish') || !isset($types[$post->post_type])) {
       return;
     }
     self::schedulePostNotification($post->ID);
@@ -47,12 +47,12 @@ class Scheduler {
       ['post_id' => $post_id]
     );
     $newsletters = self::getNewsletters(Newsletter::TYPE_NOTIFICATION);
-    if(!count($newsletters)) return false;
-    foreach($newsletters as $newsletter) {
+    if (!count($newsletters)) return false;
+    foreach ($newsletters as $newsletter) {
       $post = NewsletterPost::where('newsletter_id', $newsletter->id)
         ->where('post_id', $post_id)
         ->findOne();
-      if($post === false) {
+      if ($post === false) {
         self::createPostNotificationSendingTask($newsletter);
       }
     }
@@ -60,10 +60,10 @@ class Scheduler {
 
   static function scheduleSubscriberWelcomeNotification($subscriber_id, $segments) {
     $newsletters = self::getNewsletters(Newsletter::TYPE_WELCOME);
-    if(empty($newsletters)) return false;
+    if (empty($newsletters)) return false;
     $result = array();
-    foreach($newsletters as $newsletter) {
-      if($newsletter->event === 'segment' &&
+    foreach ($newsletters as $newsletter) {
+      if ($newsletter->event === 'segment' &&
         in_array($newsletter->segment, $segments)
       ) {
         $result[] = self::createWelcomeNotificationSendingTask($newsletter, $subscriber_id);
@@ -74,10 +74,10 @@ class Scheduler {
 
   static function scheduleAutomaticEmail($group, $event, $scheduling_condition = false, $subscriber_id = false, $meta = false) {
     $newsletters = self::getNewsletters(Newsletter::TYPE_AUTOMATIC, $group);
-    if(empty($newsletters)) return false;
-    foreach($newsletters as $newsletter) {
-      if($newsletter->event !== $event) continue;
-      if(is_callable($scheduling_condition) && !$scheduling_condition($newsletter)) continue;
+    if (empty($newsletters)) return false;
+    foreach ($newsletters as $newsletter) {
+      if ($newsletter->event !== $event) continue;
+      if (is_callable($scheduling_condition) && !$scheduling_condition($newsletter)) continue;
       self::createAutomaticEmailSendingTask($newsletter, $subscriber_id, $meta);
     }
   }
@@ -88,20 +88,20 @@ class Scheduler {
     $old_user_data = false
   ) {
     $newsletters = self::getNewsletters(Newsletter::TYPE_WELCOME);
-    if(empty($newsletters)) return false;
-    foreach($newsletters as $newsletter) {
-      if($newsletter->event === 'user') {
-        if(!empty($old_user_data['roles'])) {
+    if (empty($newsletters)) return false;
+    foreach ($newsletters as $newsletter) {
+      if ($newsletter->event === 'user') {
+        if (!empty($old_user_data['roles'])) {
           // do not schedule welcome newsletter if roles have not changed
           $old_role = $old_user_data['roles'];
           $new_role = $wp_user['roles'];
-          if($newsletter->role === self::WORDPRESS_ALL_ROLES ||
+          if ($newsletter->role === self::WORDPRESS_ALL_ROLES ||
             !array_diff($old_role, $new_role)
           ) {
             continue;
           }
         }
-        if($newsletter->role === self::WORDPRESS_ALL_ROLES ||
+        if ($newsletter->role === self::WORDPRESS_ALL_ROLES ||
           in_array($newsletter->role, $wp_user['roles'])
         ) {
           self::createWelcomeNotificationSendingTask($newsletter, $subscriber_id);
@@ -115,7 +115,7 @@ class Scheduler {
       ->where('queues.newsletter_id', $newsletter->id)
       ->where('subscribers.subscriber_id', $subscriber_id)
       ->findOne();
-    if(!empty($previously_scheduled_notification)) return;
+    if (!empty($previously_scheduled_notification)) return;
     $sending_task = SendingTask::create();
     $sending_task->newsletter_id = $newsletter->id;
     $sending_task->setSubscribers(array($subscriber_id));
@@ -131,10 +131,10 @@ class Scheduler {
   static function createAutomaticEmailSendingTask($newsletter, $subscriber_id, $meta) {
     $sending_task = SendingTask::create();
     $sending_task->newsletter_id = $newsletter->id;
-    if($newsletter->sendTo === 'user' && $subscriber_id) {
+    if ($newsletter->sendTo === 'user' && $subscriber_id) {
       $sending_task->setSubscribers(array($subscriber_id));
     }
-    if($meta) {
+    if ($meta) {
       $sending_task->__set('meta', $meta);
     }
     $sending_task->status = SendingQueue::STATUS_SCHEDULED;
@@ -147,7 +147,7 @@ class Scheduler {
   }
 
   static function createPostNotificationSendingTask($newsletter) {
-    $existing_notification_history = Newsletter::table_alias('newsletters')
+    $existing_notification_history = Newsletter::tableAlias('newsletters')
       ->where('newsletters.parent_id', $newsletter->id)
       ->where('newsletters.type', Newsletter::TYPE_NOTIFICATION_HISTORY)
       ->where('newsletters.status', Newsletter::STATUS_SENDING)
@@ -163,16 +163,16 @@ class Scheduler {
       )
       ->whereNotEqual('tasks.status', ScheduledTask::STATUS_PAUSED)
       ->findOne();
-    if($existing_notification_history) {
+    if ($existing_notification_history) {
       return;
     }
     $next_run_date = self::getNextRunDate($newsletter->schedule);
-    if(!$next_run_date) return;
+    if (!$next_run_date) return;
     // do not schedule duplicate queues for the same time
     $existing_queue = SendingQueue::findTaskByNewsletterId($newsletter->id)
       ->where('tasks.scheduled_at', $next_run_date)
       ->findOne();
-    if($existing_queue) return;
+    if ($existing_queue) return;
     $sending_task = SendingTask::create();
     $sending_task->newsletter_id = $newsletter->id;
     $sending_task->status = SendingQueue::STATUS_SCHEDULED;
@@ -193,10 +193,7 @@ class Scheduler {
     $nth_week_day = ($newsletter->nthWeekDay === self::LAST_WEEKDAY_FORMAT) ?
       $newsletter->nthWeekDay :
       '#' . $newsletter->nthWeekDay;
-    switch($interval_type) {
-      case self::INTERVAL_IMMEDIATELY:
-        $schedule = '* * * * *';
-        break;
+    switch ($interval_type) {
       case self::INTERVAL_IMMEDIATE:
       case self::INTERVAL_DAILY:
         $schedule = sprintf('0 %s * * *', $hour);
@@ -210,12 +207,16 @@ class Scheduler {
       case self::INTERVAL_MONTHLY:
         $schedule = sprintf('0 %s %s * *', $hour, $month_day);
         break;
+      case self::INTERVAL_IMMEDIATELY:
+      default:
+        $schedule = '* * * * *';
+        break;
     }
     $option_field = NewsletterOptionField::where('name', 'schedule')->findOne();
     $relation = NewsletterOption::where('newsletter_id', $newsletter->id)
       ->where('option_field_id', $option_field->id)
       ->findOne();
-    if(!$relation) {
+    if (!$relation) {
       $relation = NewsletterOption::create();
       $relation->newsletter_id = $newsletter->id;
       $relation->option_field_id = $option_field->id;
@@ -232,7 +233,7 @@ class Scheduler {
       $schedule = \Cron\CronExpression::factory($schedule);
       $next_run_date = $schedule->getNextRunDate(Carbon::createFromTimestamp($from_timestamp))
         ->format('Y-m-d H:i:s');
-    } catch(\Exception $e) {
+    } catch (\Exception $e) {
       $next_run_date = false;
     }
     return $next_run_date;
@@ -245,7 +246,7 @@ class Scheduler {
       $schedule = \Cron\CronExpression::factory($schedule);
       $previous_run_date = $schedule->getPreviousRunDate(Carbon::createFromTimestamp($from_timestamp))
         ->format('Y-m-d H:i:s');
-    } catch(\Exception $e) {
+    } catch (\Exception $e) {
       $previous_run_date = false;
     }
     return $previous_run_date;
@@ -254,7 +255,7 @@ class Scheduler {
   static function getScheduledTimeWithDelay($after_time_type, $after_time_number) {
     $wp = new WPFunctions();
     $current_time = Carbon::createFromTimestamp($wp->currentTime('timestamp'));
-    switch($after_time_type) {
+    switch ($after_time_type) {
       case 'hours':
         return $current_time->addHours($after_time_number);
       case 'days':

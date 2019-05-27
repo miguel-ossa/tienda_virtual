@@ -1,7 +1,7 @@
 <?php
 namespace MailPoet\Subscription;
-use MailPoet\Models\Setting;
 use MailPoet\Models\Subscriber;
+use MailPoet\Settings\SettingsController;
 
 class Comment {
   const SPAM = 'spam';
@@ -18,7 +18,8 @@ class Comment {
   }
 
   static function getSubscriptionField() {
-    $label = Setting::getValue(
+    $settings = new SettingsController();
+    $label = $settings->get(
       'subscribe.on_comment.label',
       __('Yes, please add me to your mailing list.', 'mailpoet')
     );
@@ -36,13 +37,13 @@ class Comment {
   }
 
   static function onSubmit($comment_id, $comment_status) {
-    if($comment_status === Comment::SPAM) return;
+    if ($comment_status === Comment::SPAM) return;
 
-    if(
+    if (
       isset($_POST['mailpoet']['subscribe_on_comment'])
       && (bool)$_POST['mailpoet']['subscribe_on_comment'] === true
     ) {
-      if($comment_status === Comment::PENDING_APPROVAL) {
+      if ($comment_status === Comment::PENDING_APPROVAL) {
         // add a comment meta to remember to subscribe the user
         // once the comment gets approved
         add_comment_meta(
@@ -51,14 +52,14 @@ class Comment {
           'subscribe_on_comment',
           true
         );
-      } else if($comment_status === Comment::APPROVED) {
+      } else if ($comment_status === Comment::APPROVED) {
         static::subscribeAuthorOfComment($comment_id);
       }
     }
   }
 
   static function onStatusUpdate($comment_id, $action) {
-    if($action === 'approve') {
+    if ($action === 'approve') {
       // check if the comment's author wants to subscribe
       $do_subscribe = (
         get_comment_meta(
@@ -68,7 +69,7 @@ class Comment {
         ) === 'subscribe_on_comment'
       );
 
-      if($do_subscribe === true) {
+      if ($do_subscribe === true) {
         static::subscribeAuthorOfComment($comment_id);
 
         delete_comment_meta($comment_id, 'mailpoet');
@@ -77,9 +78,10 @@ class Comment {
   }
 
   private static function subscribeAuthorOfComment($comment_id) {
-    $segment_ids = Setting::getValue('subscribe.on_comment.segments', array());
+    $settings = new SettingsController();
+    $segment_ids = $settings->get('subscribe.on_comment.segments', array());
 
-    if(!empty($segment_ids)) {
+    if (!empty($segment_ids)) {
       $comment = get_comment($comment_id);
 
       $result = Subscriber::subscribe(

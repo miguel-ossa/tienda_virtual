@@ -11,7 +11,7 @@ use MailPoet\Listing;
 use MailPoet\Models\Form;
 use MailPoet\Models\StatisticsForms;
 
-if(!defined('ABSPATH')) exit;
+if (!defined('ABSPATH')) exit;
 
 class Forms extends APIEndpoint {
 
@@ -36,7 +36,7 @@ class Forms extends APIEndpoint {
   function get($data = array()) {
     $id = (isset($data['id']) ? (int)$data['id'] : false);
     $form = Form::findOne($id);
-    if($form === false) {
+    if ($form === false) {
       return $this->errorResponse(array(
         APIError::NOT_FOUND => __('This form does not exist.', 'mailpoet')
       ));
@@ -49,7 +49,7 @@ class Forms extends APIEndpoint {
     $listing_data = $this->listing_handler->get('\MailPoet\Models\Form', $data);
 
     $data = array();
-    foreach($listing_data['items'] as $form) {
+    foreach ($listing_data['items'] as $form) {
       $form = $form->asArray();
 
       $form['signups'] = StatisticsForms::getTotalSignups($form['id']);
@@ -110,7 +110,7 @@ class Forms extends APIEndpoint {
     $form = Form::createOrUpdate($data);
     $errors = $form->getErrors();
 
-    if(!empty($errors)) {
+    if (!empty($errors)) {
       return $this->badRequest($errors);
     } else {
       return $this->successResponse(
@@ -138,7 +138,7 @@ class Forms extends APIEndpoint {
   function exportsEditor($data = array()) {
     $id = (isset($data['id']) ? (int)$data['id'] : false);
     $form = Form::findOne($id);
-    if($form === false) {
+    if ($form === false) {
       return $this->errorResponse(array(
         APIError::NOT_FOUND => __('This form does not exist.', 'mailpoet')
       ));
@@ -160,9 +160,9 @@ class Forms extends APIEndpoint {
     // check if the form is used as a widget
     $is_widget = false;
     $widgets = get_option('widget_mailpoet_form');
-    if(!empty($widgets)) {
-      foreach($widgets as $widget) {
-        if(isset($widget['form']) && (int)$widget['form'] === $form_id) {
+    if (!empty($widgets)) {
+      foreach ($widgets as $widget) {
+        if (isset($widget['form']) && (int)$widget['form'] === $form_id) {
           $is_widget = true;
           break;
         }
@@ -172,10 +172,11 @@ class Forms extends APIEndpoint {
     // check if the user gets to pick his own lists
     // or if it's selected by the admin
     $has_segment_selection = false;
-    foreach($body as $i => $block) {
-      if($block['type'] === 'segment') {
+    $list_selection = [];
+    foreach ($body as $i => $block) {
+      if ($block['type'] === 'segment') {
         $has_segment_selection = true;
-        if(!empty($block['params']['values'])) {
+        if (!empty($block['params']['values'])) {
           $list_selection = array_filter(
             array_map(function($segment) {
               return (isset($segment['id'])
@@ -190,7 +191,7 @@ class Forms extends APIEndpoint {
     }
 
     // check list selection
-    if($has_segment_selection === true) {
+    if ($has_segment_selection === true) {
       $settings['segments_selected_by'] = 'user';
       $settings['segments'] = $list_selection;
     } else {
@@ -207,7 +208,7 @@ class Forms extends APIEndpoint {
 
     $errors = $form->getErrors();
 
-    if(!empty($errors)) {
+    if (!empty($errors)) {
       return $this->badRequest($errors);
     } else {
       return $this->successResponse(
@@ -220,7 +221,7 @@ class Forms extends APIEndpoint {
   function restore($data = array()) {
     $id = (isset($data['id']) ? (int)$data['id'] : false);
     $form = Form::findOne($id);
-    if($form === false) {
+    if ($form === false) {
       return $this->errorResponse(array(
         APIError::NOT_FOUND => __('This form does not exist.', 'mailpoet')
       ));
@@ -236,7 +237,7 @@ class Forms extends APIEndpoint {
   function trash($data = array()) {
     $id = (isset($data['id']) ? (int)$data['id'] : false);
     $form = Form::findOne($id);
-    if($form === false) {
+    if ($form === false) {
       return $this->errorResponse(array(
         APIError::NOT_FOUND => __('This form does not exist.', 'mailpoet')
       ));
@@ -252,7 +253,7 @@ class Forms extends APIEndpoint {
   function delete($data = array()) {
     $id = (isset($data['id']) ? (int)$data['id'] : false);
     $form = Form::findOne($id);
-    if($form === false) {
+    if ($form === false) {
       return $this->errorResponse(array(
         APIError::NOT_FOUND => __('This form does not exist.', 'mailpoet')
       ));
@@ -266,7 +267,7 @@ class Forms extends APIEndpoint {
     $id = (isset($data['id']) ? (int)$data['id'] : false);
     $form = Form::findOne($id);
 
-    if($form === false) {
+    if ($form === false) {
       return $this->errorResponse(array(
         APIError::NOT_FOUND => __('This form does not exist.', 'mailpoet')
       ));
@@ -277,7 +278,7 @@ class Forms extends APIEndpoint {
       $duplicate = $form->duplicate($data);
       $errors = $duplicate->getErrors();
 
-      if(!empty($errors)) {
+      if (!empty($errors)) {
         return $this->errorResponse($errors);
       } else {
         return $this->successResponse(
@@ -292,7 +293,7 @@ class Forms extends APIEndpoint {
     try {
       $meta = $this->bulk_action->apply('\MailPoet\Models\Form', $data);
       return $this->successResponse(null, $meta);
-    } catch(\Exception $e) {
+    } catch (\Exception $e) {
       return $this->errorResponse(array(
         $e->getCode() => $e->getMessage()
       ));

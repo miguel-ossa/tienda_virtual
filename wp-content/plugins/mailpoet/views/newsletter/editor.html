@@ -395,7 +395,7 @@
   <script type="text/javascript">
     function renderWithFont(node) {
       if (!node.element) return node.text;
-      var $wrapper = $('<span></span>');
+      var $wrapper = jQuery('<span></span>');
       $wrapper.css({'font-family': Handlebars.helpers.fontWithFallback(node.element.value)});
       $wrapper.text(node.text);
       return $wrapper;
@@ -637,7 +637,11 @@
             'Open Sans',
             'Playfair Display',
             'Roboto',
-            'Source Sans Pro'
+            'Source Sans Pro',
+            'Oswald',
+            'Raleway',
+            'Permanent Marker',
+            'Pacifico',
           ]
         },
         socialIconSets: {
@@ -1266,6 +1270,11 @@
         },
         social: {
           iconSet: 'default',
+          styles: {
+            block: {
+              textAlign: 'center'
+            }
+          },
           icons: [
           {
             type: 'socialIcon',

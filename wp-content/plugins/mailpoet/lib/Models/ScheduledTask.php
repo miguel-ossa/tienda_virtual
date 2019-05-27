@@ -4,8 +4,13 @@ namespace MailPoet\Models;
 
 use MailPoet\WP\Functions as WPFunctions;
 
-if(!defined('ABSPATH')) exit;
+if (!defined('ABSPATH')) exit;
 
+/**
+ * @property int $id
+ * @property string $processed_at
+ * @property int $priority
+ */
 class ScheduledTask extends Model {
   public static $_table = MP_SCHEDULED_TASKS_TABLE;
   const STATUS_COMPLETED = 'completed';
@@ -29,6 +34,15 @@ class ScheduledTask extends Model {
       __NAMESPACE__.'\ScheduledTaskSubscriber',
       'task_id',
       'subscriber_id'
+    );
+  }
+
+  /** @return StatsNotification */
+  function statsNotification() {
+    return $this->hasOne(
+      StatsNotification::class,
+      'task_id',
+      'id'
     );
   }
 
@@ -76,7 +90,7 @@ class ScheduledTask extends Model {
 
   function save() {
     // set the default priority to medium
-    if(!$this->priority) {
+    if (!$this->priority) {
       $this->priority = self::PRIORITY_MEDIUM;
     }
     parent::save();
@@ -89,7 +103,7 @@ class ScheduledTask extends Model {
       ScheduledTaskSubscriber::where('task_id', $this->id)->deleteMany();
       parent::delete();
       \ORM::get_db()->commit();
-    } catch(\Exception $error) {
+    } catch (\Exception $error) {
       \ORM::get_db()->rollBack();
       throw $error;
     }

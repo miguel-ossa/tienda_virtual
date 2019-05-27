@@ -22,7 +22,7 @@
 if (file_exists(dirname(__FILE__). '/local.php')) {
 	define('DB_NAME', 'carolinaspa_wc');
 	define('DB_USER', 'root');
-	define('DB_PASSWORD', 'root');
+	define('DB_PASSWORD', '');
 	define('DB_HOST', 'localhost');
 } else {
 	define('DB_NAME', 'dissenyd_carolinaspa');

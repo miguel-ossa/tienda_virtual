@@ -8,18 +8,18 @@ use MailPoet\Config\AccessControl;
 use MailPoet\Form\Util\FieldNameObfuscator;
 use MailPoet\Listing;
 use MailPoet\Models\Form;
-use MailPoet\Models\Setting;
 use MailPoet\Models\StatisticsForms;
 use MailPoet\Models\Subscriber;
 use MailPoet\Newsletter\Scheduler\Scheduler;
 use MailPoet\Segments\BulkAction;
 use MailPoet\Segments\SubscribersListings;
+use MailPoet\Settings\SettingsController;
 use MailPoet\Subscribers\RequiredCustomFieldValidator;
 use MailPoet\Subscribers\Source;
 use MailPoet\Subscription\Throttling as SubscriptionThrottling;
-use MailPoet\WP\Hooks;
+use MailPoet\WP\Functions as WPFunctions;
 
-if(!defined('ABSPATH')) exit;
+if (!defined('ABSPATH')) exit;
 
 class Subscribers extends APIEndpoint {
   const SUBSCRIPTION_LIMIT_COOLDOWN = 60;
@@ -41,22 +41,32 @@ class Subscribers extends APIEndpoint {
   /** @var Listing\Handler */
   private $listing_handler;
 
+  /** @var WPFunctions */
+  private $wp;
+
+  /** @var SettingsController */
+  private $settings;
+
   public function __construct(
     Listing\BulkActionController $bulk_action_controller,
     SubscribersListings $subscribers_listings,
     RequiredCustomFieldValidator $required_custom_field_validator,
-    Listing\Handler $listing_handler
+    Listing\Handler $listing_handler,
+    WPFunctions $wp,
+    SettingsController $settings
   ) {
     $this->bulk_action_controller = $bulk_action_controller;
     $this->subscribers_listings = $subscribers_listings;
     $this->required_custom_field_validator = $required_custom_field_validator;
     $this->listing_handler = $listing_handler;
+    $this->wp = $wp;
+    $this->settings = $settings;
   }
 
   function get($data = array()) {
     $id = (isset($data['id']) ? (int)$data['id'] : false);
     $subscriber = Subscriber::findOne($id);
-    if($subscriber === false) {
+    if ($subscriber === false) {
       return $this->errorResponse(array(
         APIError::NOT_FOUND => __('This subscriber does not exist.', 'mailpoet')
       ));
@@ -72,20 +82,20 @@ class Subscribers extends APIEndpoint {
 
   function listing($data = array()) {
 
-    if(!isset($data['filter']['segment'])) {
+    if (!isset($data['filter']['segment'])) {
       $listing_data = $this->listing_handler->get('\MailPoet\Models\Subscriber', $data);
     } else {
       $listing_data = $this->subscribers_listings->getListingsInSegment($data);
     }
 
     $data = array();
-    foreach($listing_data['items'] as $subscriber) {
+    foreach ($listing_data['items'] as $subscriber) {
       $data[] = $subscriber
         ->withSubscriptions()
         ->asArray();
     }
 
-    $listing_data['filters']['segment'] = Hooks::applyFilters(
+    $listing_data['filters']['segment'] = $this->wp->applyFilters(
       'mailpoet_subscribers_listings_filters_segments',
       $listing_data['filters']['segment']
     );
@@ -101,26 +111,26 @@ class Subscribers extends APIEndpoint {
     $form = Form::findOne($form_id);
     unset($data['form_id']);
 
-    $recaptcha = Setting::getValue('re_captcha');
+    $recaptcha = $this->settings->get('re_captcha');
 
-    if(!$form) {
+    if (!$form) {
       return $this->badRequest(array(
         APIError::BAD_REQUEST => __('Please specify a valid form ID.', 'mailpoet')
       ));
     }
-    if(!empty($data['email'])) {
+    if (!empty($data['email'])) {
       return $this->badRequest(array(
         APIError::BAD_REQUEST => __('Please leave the first field empty.', 'mailpoet')
       ));
     }
 
-    if(!empty($recaptcha['enabled']) && empty($data['recaptcha'])) {
+    if (!empty($recaptcha['enabled']) && empty($data['recaptcha'])) {
       return $this->badRequest(array(
         APIError::BAD_REQUEST => __('Please check the CAPTCHA.', 'mailpoet')
       ));
     }
 
-    if(!empty($recaptcha['enabled'])) {
+    if (!empty($recaptcha['enabled'])) {
       $res = empty($data['recaptcha']) ? $data['recaptcha-no-js'] : $data['recaptcha'];
       $res = wp_remote_post('https://www.google.com/recaptcha/api/siteverify', array(
         'body' => array(
@@ -128,13 +138,13 @@ class Subscribers extends APIEndpoint {
           'response' => $res
         )
       ));
-      if(is_wp_error($res)) {
+      if (is_wp_error($res)) {
         return $this->badRequest(array(
           APIError::BAD_REQUEST => __('Error while validating the CAPTCHA.', 'mailpoet')
         ));
       }
       $res = json_decode(wp_remote_retrieve_body($res));
-      if(empty($res->success)) {
+      if (empty($res->success)) {
         return $this->badRequest(array(
           APIError::BAD_REQUEST => __('Error while validating the CAPTCHA.', 'mailpoet')
         ));
@@ -156,7 +166,7 @@ class Subscribers extends APIEndpoint {
     $segment_ids = $form->filterSegments($segment_ids);
     unset($data['segments']);
 
-    if(empty($segment_ids)) {
+    if (empty($segment_ids)) {
       return $this->badRequest(array(
         APIError::BAD_REQUEST => __('Please select a list.', 'mailpoet')
       ));
@@ -169,29 +179,29 @@ class Subscribers extends APIEndpoint {
     // make sure we don't allow too many subscriptions with the same ip address
     $timeout = SubscriptionThrottling::throttle();
 
-    if($timeout > 0) {
+    if ($timeout > 0) {
       throw new \Exception(sprintf(__('You need to wait %d seconds before subscribing again.', 'mailpoet'), $timeout));
     }
 
     $subscriber = Subscriber::subscribe($data, $segment_ids);
     $errors = $subscriber->getErrors();
 
-    if($errors !== false) {
+    if ($errors !== false) {
       return $this->badRequest($errors);
     } else {
       $meta = array();
 
-      if($form !== false) {
+      if ($form !== false) {
         // record form statistics
         StatisticsForms::record($form->id, $subscriber->id);
 
         $form = $form->asArray();
 
-        if(!empty($form['settings']['on_success'])) {
-          if($form['settings']['on_success'] === 'page') {
+        if (!empty($form['settings']['on_success'])) {
+          if ($form['settings']['on_success'] === 'page') {
             // redirect to a page on a success, pass the page url in the meta
             $meta['redirect_url'] = get_permalink($form['settings']['success_page']);
-          } else if($form['settings']['on_success'] === 'url') {
+          } else if ($form['settings']['on_success'] === 'url') {
             $meta['redirect_url'] = $form['settings']['success_url'];
           }
         }
@@ -210,22 +220,22 @@ class Subscribers extends APIEndpoint {
   }
 
   function save($data = array()) {
-    if(empty($data['segments'])) {
+    if (empty($data['segments'])) {
       $data['segments'] = array();
     }
     $subscriber = Subscriber::createOrUpdate($data);
     $errors = $subscriber->getErrors();
 
-    if(!empty($errors)) {
+    if (!empty($errors)) {
       return $this->badRequest($errors);
     }
 
-    if($subscriber->isNew()) {
+    if ($subscriber->isNew()) {
       $subscriber = Source::setSource($subscriber, Source::ADMINISTRATOR);
       $subscriber->save();
     }
 
-    if(!empty($data['segments'])) {
+    if (!empty($data['segments'])) {
       Scheduler::scheduleSubscriberWelcomeNotification($subscriber->id, $data['segments']);
     }
 
@@ -237,7 +247,7 @@ class Subscribers extends APIEndpoint {
   function restore($data = array()) {
     $id = (isset($data['id']) ? (int)$data['id'] : false);
     $subscriber = Subscriber::findOne($id);
-    if($subscriber === false) {
+    if ($subscriber === false) {
       return $this->errorResponse(array(
         APIError::NOT_FOUND => __('This subscriber does not exist.', 'mailpoet')
       ));
@@ -253,7 +263,7 @@ class Subscribers extends APIEndpoint {
   function trash($data = array()) {
     $id = (isset($data['id']) ? (int)$data['id'] : false);
     $subscriber = Subscriber::findOne($id);
-    if($subscriber === false) {
+    if ($subscriber === false) {
       return $this->errorResponse(array(
         APIError::NOT_FOUND => __('This subscriber does not exist.', 'mailpoet')
       ));
@@ -269,7 +279,7 @@ class Subscribers extends APIEndpoint {
   function delete($data = array()) {
     $id = (isset($data['id']) ? (int)$data['id'] : false);
     $subscriber = Subscriber::findOne($id);
-    if($subscriber === false) {
+    if ($subscriber === false) {
       return $this->errorResponse(array(
         APIError::NOT_FOUND => __('This subscriber does not exist.', 'mailpoet')
       ));
@@ -281,7 +291,7 @@ class Subscribers extends APIEndpoint {
 
   function bulkAction($data = array()) {
     try {
-      if(!isset($data['listing']['filter']['segment'])) {
+      if (!isset($data['listing']['filter']['segment'])) {
         return $this->successResponse(
           null,
           $this->bulk_action_controller->apply('\MailPoet\Models\Subscriber', $data)
@@ -290,7 +300,7 @@ class Subscribers extends APIEndpoint {
         $bulk_action = new BulkAction($data);
         return $this->successResponse(null, $bulk_action->apply());
       }
-    } catch(\Exception $e) {
+    } catch (\Exception $e) {
       return $this->errorResponse(array(
         $e->getCode() => $e->getMessage()
       ));

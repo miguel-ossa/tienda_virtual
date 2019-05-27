@@ -16,11 +16,11 @@ class Renderer {
     $this->posts = array();
     $newer_than_timestamp = false;
     $newsletter_id = false;
-    if($newsletter['type'] === Newsletter::TYPE_NOTIFICATION_HISTORY) {
+    if ($newsletter['type'] === Newsletter::TYPE_NOTIFICATION_HISTORY) {
       $newsletter_id = $newsletter['parent_id'];
 
       $last_post = NewsletterPost::getNewestNewsletterPost($newsletter_id);
-      if($last_post) {
+      if ($last_post) {
         $newer_than_timestamp = $last_post->created_at;
       }
     }
@@ -36,7 +36,7 @@ class Renderer {
     $column_widths = ColumnsHelper::columnWidth($column_count, $columns_layout);
     $column_content = [];
 
-    foreach($data['blocks'] as $index => $column_blocks) {
+    foreach ($data['blocks'] as $index => $column_blocks) {
       $rendered_block_element = $this->renderBlocksInColumn($column_blocks, $column_widths[$index]);
       $column_content[] = $rendered_block_element;
     }
@@ -49,10 +49,10 @@ class Renderer {
     $_this = $this;
     array_map(function($block) use (&$block_content, $column_base_width, $_this) {
       $rendered_block_element = $_this->createElementFromBlockType($block, $column_base_width);
-      if(isset($block['blocks'])) {
+      if (isset($block['blocks'])) {
         $rendered_block_element = $_this->renderBlocksInColumn($block, $column_base_width);
         // nested vertical column container is rendered as an array
-        if(is_array($rendered_block_element)) {
+        if (is_array($rendered_block_element)) {
           $rendered_block_element = implode('', $rendered_block_element);
         }
       }
@@ -63,13 +63,13 @@ class Renderer {
   }
 
   function createElementFromBlockType($block, $column_base_width) {
-    if($block['type'] === 'automatedLatestContent') {
+    if ($block['type'] === 'automatedLatestContent') {
       $content = $this->processAutomatedLatestContent($block, $column_base_width);
       return $content;
     }
     $block = StylesHelper::applyTextAlignment($block);
     $block_class = __NAMESPACE__ . '\\' . ucfirst($block['type']);
-    if(!class_exists($block_class)) {
+    if (!class_exists($block_class)) {
       return '';
     }
     return $block_class::render($block, $column_base_width);
@@ -78,7 +78,7 @@ class Renderer {
   function automatedLatestContentTransformedPosts($args) {
     $posts_to_exclude = $this->getPosts();
     $ALC_posts = $this->ALC->getPosts($args, $posts_to_exclude);
-    foreach($ALC_posts as $post) {
+    foreach ($ALC_posts as $post) {
       $posts_to_exclude[] = $post->ID;
     }
     $this->setPosts($posts_to_exclude);

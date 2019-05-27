@@ -2,11 +2,13 @@
 namespace MailPoet\Subscription;
 use MailPoet\Models\Setting;
 use MailPoet\Models\Subscriber;
+use MailPoet\Settings\SettingsController;
 
 class Registration {
 
   static function extendForm() {
-    $label = Setting::getValue(
+    $settings = new SettingsController();
+    $label = $settings->get(
       'subscribe.on_register.label',
       __('Yes, please add me to your mailing list.', 'mailpoet')
     );
@@ -24,8 +26,8 @@ class Registration {
   }
 
   static function onMultiSiteRegister($result) {
-    if(empty($result['errors']->errors)) {
-      if(
+    if (empty($result['errors']->errors)) {
+      if (
         isset($_POST['mailpoet']['subscribe_on_register'])
         && (bool)$_POST['mailpoet']['subscribe_on_register'] === true
       ) {
@@ -43,7 +45,7 @@ class Registration {
     $user_email = null,
     $errors = null
   ) {
-    if(
+    if (
       empty($errors->errors)
       && isset($_POST['mailpoet']['subscribe_on_register'])
       && (bool)$_POST['mailpoet']['subscribe_on_register'] === true
@@ -56,12 +58,13 @@ class Registration {
   }
 
   private static function subscribeNewUser($name, $email) {
-    $segment_ids = Setting::getValue(
+    $settings = new SettingsController();
+    $segment_ids = $settings->get(
       'subscribe.on_register.segments',
-      array()
+      []
     );
 
-    if(!empty($segment_ids)) {
+    if (!empty($segment_ids)) {
       Subscriber::subscribe(
         array(
           'email' => $email,

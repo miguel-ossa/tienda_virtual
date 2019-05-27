@@ -4,20 +4,22 @@ namespace MailPoet\API\JSON\v1;
 
 use MailPoet\API\JSON\Endpoint as APIEndpoint;
 use MailPoet\Config\AccessControl;
-use MailPoet\WP\Hooks;
+use MailPoet\WP\Functions as WPFunctions;
 use MailPoet\WP\Posts as WPPosts;
 
-if(!defined('ABSPATH')) exit;
+if (!defined('ABSPATH')) exit;
 
 class AutomatedLatestContent extends APIEndpoint {
   /** @var \MailPoet\Newsletter\AutomatedLatestContent  */
   public $ALC;
+  private $wp;
   public $permissions = array(
     'global' => AccessControl::PERMISSION_MANAGE_EMAILS
   );
 
-  function __construct(\MailPoet\Newsletter\AutomatedLatestContent $alc) {
+  function __construct(\MailPoet\Newsletter\AutomatedLatestContent $alc, WPFunctions $wp) {
     $this->ALC = $alc;
+    $this->wp = $wp;
   }
 
   function getPostTypes() {
@@ -56,7 +58,7 @@ class AutomatedLatestContent extends APIEndpoint {
       'order' => 'ASC'
     );
 
-    $args = Hooks::applyFilters('mailpoet_search_terms_args', $args);
+    $args = $this->wp->applyFilters('mailpoet_search_terms_args', $args);
     $terms = WPPosts::getTerms($args);
 
     return $this->successResponse(array_values($terms));
@@ -79,11 +81,11 @@ class AutomatedLatestContent extends APIEndpoint {
     $used_posts = array();
     $rendered_posts = array();
 
-    foreach($data['blocks'] as $block) {
+    foreach ($data['blocks'] as $block) {
       $posts = $this->ALC->getPosts($block, $used_posts);
       $rendered_posts[] = $this->ALC->transformPosts($block, $posts);
 
-      foreach($posts as $post) {
+      foreach ($posts as $post) {
         $used_posts[] = $post->ID;
       }
     }

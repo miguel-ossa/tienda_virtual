@@ -2,10 +2,9 @@
 
 namespace MailPoet\Services\Bridge;
 
-use MailPoet\WP\Hooks as WPHooks;
 use MailPoet\WP\Functions as WPFunctions;
 
-if(!defined('ABSPATH')) exit;
+if (!defined('ABSPATH')) exit;
 
 class API {
   const SENDING_STATUS_OK = 'ok';
@@ -33,7 +32,7 @@ class API {
 
   function __construct($api_key, $wp = null) {
     $this->setKey($api_key);
-    if(is_null($wp)) {
+    if (is_null($wp)) {
       $this->wp = new WPFunctions();
     } else {
       $this->wp = $wp;
@@ -47,7 +46,7 @@ class API {
     );
 
     $code = $this->wp->wpRemoteRetrieveResponseCode($result);
-    switch($code) {
+    switch ($code) {
       case 200:
         $body = json_decode($this->wp->wpRemoteRetrieveBody($result), true);
         break;
@@ -66,9 +65,9 @@ class API {
     );
 
     $code = $this->wp->wpRemoteRetrieveResponseCode($result);
-    switch($code) {
+    switch ($code) {
       case 200:
-        if($body = $this->wp->wpRemoteRetrieveBody($result)) {
+        if ($body = $this->wp->wpRemoteRetrieveBody($result)) {
           $body = json_decode($body, true);
         }
         break;
@@ -86,7 +85,7 @@ class API {
       $this->url_messages,
       $message_body
     );
-    if(is_wp_error($result)) {
+    if (is_wp_error($result)) {
       return array(
         'status' => self::SENDING_STATUS_CONNECTION_ERROR,
         'message' => $result->get_error_message()
@@ -94,7 +93,7 @@ class API {
     }
 
     $response_code = $this->wp->wpRemoteRetrieveResponseCode($result);
-    if($response_code !== 201) {
+    if ($response_code !== 201) {
       $response = ($this->wp->wpRemoteRetrieveBody($result)) ?
         $this->wp->wpRemoteRetrieveBody($result) :
         $this->wp->wpRemoteRetrieveResponseMessage($result);
@@ -112,7 +111,7 @@ class API {
       $this->url_bounces,
       $emails
     );
-    if($this->wp->wpRemoteRetrieveResponseCode($result) === 200) {
+    if ($this->wp->wpRemoteRetrieveResponseCode($result) === 200) {
       return json_decode($this->wp->wpRemoteRetrieveBody($result), true);
     }
     return false;
@@ -141,7 +140,7 @@ class API {
 
   private function request($url, $body, $method = 'POST') {
     $params = array(
-      'timeout' => WPHooks::applyFilters('mailpoet_bridge_api_request_timeout', self::REQUEST_TIMEOUT),
+      'timeout' => $this->wp->applyFilters('mailpoet_bridge_api_request_timeout', self::REQUEST_TIMEOUT),
       'httpversion' => '1.0',
       'method' => $method,
       'headers' => array(

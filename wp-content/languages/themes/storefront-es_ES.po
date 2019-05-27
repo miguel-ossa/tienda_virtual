@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Themes - Storefront package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-12-06 12:31:46+0000\n"
+"PO-Revision-Date: 2019-02-05 15:08:37+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,31 +19,48 @@ msgstr "Storefront"
 msgid "Storefront is the perfect theme for your next WooCommerce project. Designed and developed by WooCommerce Core developers, it features a bespoke integration with WooCommerce itself plus many of the most popular customer facing WooCommerce extensions. There are several layout & color options to personalise your shop, multiple widget regions, a responsive design and much more. Developers will love its lean and extensible codebase making it a joy to customize and extend. Looking for a WooCommerce theme? Look no further!"
 msgstr "Storefront es el tema perfecto para tu próximo proyecto WooCommerce. Diseñado y desarrollado por los desarrolladores del núcleo de WooCommerce, cuenta con una integración profunda con nuestro plugin WooCommerce además de con muchos de las extensiones para WooCommerce. Tiene varias opciones de color y estructura para que personalices tu tienda, varias zonas de widgets, diseño responsive y mucho más. A los desarrolladores les encantará su código base limpio y extenso, que hace que personalizarlo sea una gozada. ¿Buscas un tema de WooCommerce? ¡Ya lo encontraste!"
 
-#: inc/storefront-template-functions.php:446
+#: inc/storefront-template-functions.php:517
+msgid "Tag:"
+msgid_plural "Tags:"
+msgstr[0] "Etiqueta:"
+msgstr[1] "Etiquetas:"
+
+#: inc/storefront-template-functions.php:511
+msgid "Category:"
+msgid_plural "Categories:"
+msgstr[0] "Categoría:"
+msgstr[1] "Categorías:"
+
+#. translators: %s: post date
+#: inc/storefront-template-functions.php:451
+msgid "Posted on %s"
+msgstr "Publicado el %s"
+
+#: inc/storefront-template-functions.php:457
 msgid "by"
 msgstr "por"
 
-#: inc/woocommerce/storefront-woocommerce-template-functions.php:828
+#: inc/woocommerce/storefront-woocommerce-template-functions.php:825
 msgid "Product Brands"
 msgstr "Marcas de productos"
 
-#: inc/woocommerce/storefront-woocommerce-template-functions.php:813
+#: inc/woocommerce/storefront-woocommerce-template-functions.php:810
 msgid "Shop by Brand"
 msgstr "Tienda por marca"
 
-#: inc/woocommerce/storefront-woocommerce-template-functions.php:778
+#: inc/woocommerce/storefront-woocommerce-template-functions.php:775
 msgid "You're viewing:"
 msgstr "Estás viendo:"
 
-#: inc/woocommerce/storefront-woocommerce-template-functions.php:733
+#: inc/woocommerce/storefront-woocommerce-template-functions.php:724
 msgid "More products"
 msgstr "Más productos"
 
-#: inc/storefront-template-functions.php:541
+#: inc/storefront-template-functions.php:550
 msgid "Previous post:"
 msgstr "Anterior:"
 
-#: inc/storefront-template-functions.php:540
+#: inc/storefront-template-functions.php:549
 msgid "Next post:"
 msgstr "Siguiente:"
 
@@ -75,11 +92,11 @@ msgstr "Color del texto de la sección Hero"
 msgid "Hero heading color"
 msgstr "Color de la cabecera de la sección Hero"
 
-#: inc/class-storefront.php:307
+#: inc/class-storefront.php:308
 msgid "Collapse child menu"
 msgstr "Contraer el menú hijo"
 
-#: inc/class-storefront.php:306
+#: inc/class-storefront.php:307
 msgid "Expand child menu"
 msgstr "Expandir el menú hijo"
 
@@ -99,7 +116,7 @@ msgstr "Organiza tus menús añadiendo páginas, categorías, etiquetas y enlace
 msgid "Customize your navigation menus"
 msgstr "Personaliza tus menús de navegación"
 
-#: inc/class-storefront.php:441
+#: inc/class-storefront.php:467
 msgid "Post Navigation"
 msgstr "Navegación de entradas"
 
@@ -320,22 +337,22 @@ msgid "Thanks for installing Storefront, you rock! 🤘"
 msgstr "Gracias por instalar Storefront, ¡tú molas! 🤘"
 
 #. translators: 1: column number, 2: row number
-#: inc/class-storefront.php:230
+#: inc/class-storefront.php:231
 msgid "Widgets added here will appear in column %1$d of footer row %2$d."
 msgstr "Los widgets añadidos aquí aparecerán en la columna %1$d del pie de página en la fila %2$d."
 
 #. translators: 1: row number, 2: column number
-#: inc/class-storefront.php:227
+#: inc/class-storefront.php:228
 msgid "Footer Row %1$d - Column %2$d"
 msgstr "Pie de página, fila %1$d - Columna %2$d"
 
 #. translators: 1: column number
-#: inc/class-storefront.php:224
+#: inc/class-storefront.php:225
 msgid "Widgets added here will appear in column %1$d of the footer."
 msgstr "Los widgets añadidos aquí aparecerán en la columna %1$d del pie de página."
 
 #. translators: 1: column number
-#: inc/class-storefront.php:221
+#: inc/class-storefront.php:222
 msgid "Footer Column %1$d"
 msgstr "Pie de página, columna %1$d"
 
@@ -410,7 +427,7 @@ msgstr "Documentación"
 msgid "Support"
 msgstr "Soporte"
 
-#: inc/class-storefront.php:208
+#: inc/class-storefront.php:209
 msgid "Widgets added to this region will appear beneath the header and above the main content."
 msgstr "Los widgets añadidos a esta sección aparecerán debajo de la cabecera y por encima del contenido principal."
 
@@ -442,19 +459,11 @@ msgstr "Novedades"
 msgid "Shop by Category"
 msgstr "Comprar por categoría"
 
-#: inc/storefront-template-functions.php:507
-msgid "Tagged"
-msgstr "Etiquetado"
-
-#: inc/storefront-template-functions.php:500
-msgid "Posted in"
-msgstr "Publicado en"
-
 #: inc/storefront-template-functions.php:229
 msgid "Menu"
 msgstr "Menú"
 
-#: inc/class-storefront.php:206
+#: inc/class-storefront.php:207
 msgid "Below Header"
 msgstr "Bajo la cabecera"
 
@@ -480,12 +489,12 @@ msgstr "Nuevo en la tienda"
 msgid "Header background image"
 msgstr "Imagen de fondo de cabecera"
 
-#: inc/storefront-template-functions.php:526
+#: inc/storefront-template-functions.php:535
 msgctxt "Next post"
 msgid "Next"
 msgstr "Siguiente"
 
-#: inc/storefront-template-functions.php:527
+#: inc/storefront-template-functions.php:536
 msgctxt "Previous post"
 msgid "Previous"
 msgstr "Anterior"
@@ -542,41 +551,35 @@ msgstr "Ver tu carrito de compra"
 msgid "On Sale"
 msgstr "Rebajados"
 
-#. translators: %s: post date
-#: inc/storefront-template-functions.php:440
-msgctxt "post date"
-msgid "Posted on"
-msgstr "Publicado el"
-
 #: inc/nux/class-storefront-nux-guided-tour.php:83
 msgid "Next"
 msgstr "Siguiente"
 
-#: inc/storefront-template-functions.php:455
+#: inc/storefront-template-functions.php:466
 msgid "% Comments"
 msgstr "% comentarios"
 
-#: inc/storefront-template-functions.php:455
+#: inc/storefront-template-functions.php:466
 msgid "1 Comment"
 msgstr "1 comentario"
 
-#: inc/storefront-template-functions.php:455
+#: inc/storefront-template-functions.php:466
 msgid "Leave a comment"
 msgstr "Deja un comentario"
 
 #. translators: used between list items, there is a space after the comma
-#: inc/storefront-template-functions.php:491
-#: inc/storefront-template-functions.php:494
+#: inc/storefront-template-functions.php:502
+#: inc/storefront-template-functions.php:505
 msgid ", "
 msgstr ", "
 
 #. translators: %s: post title
-#: inc/storefront-template-functions.php:396
+#: inc/storefront-template-functions.php:401
 msgid "Continue reading %s"
 msgstr "Sigue leyendo %s"
 
 #: inc/storefront-template-functions.php:339
-#: inc/storefront-template-functions.php:405
+#: inc/storefront-template-functions.php:410
 msgid "Pages:"
 msgstr "Páginas:"
 
@@ -604,16 +607,16 @@ msgstr "Editar"
 msgid "Your comment is awaiting moderation."
 msgstr "Tu comentario está pendiente de moderación."
 
-#: inc/class-storefront.php:94
+#: inc/class-storefront.php:95
 #: inc/nux/class-storefront-nux-starter-content.php:192
 msgid "Handheld Menu"
 msgstr "Menú para móviles"
 
-#: inc/class-storefront.php:200
+#: inc/class-storefront.php:201
 msgid "Sidebar"
 msgstr "Barra lateral"
 
-#: inc/class-storefront.php:93
+#: inc/class-storefront.php:94
 #: inc/nux/class-storefront-nux-starter-content.php:182
 msgid "Secondary Menu"
 msgstr "Menú secundario"
@@ -622,7 +625,7 @@ msgstr "Menú secundario"
 msgid "Looking for more options?"
 msgstr "¿Estás buscando más opciones?"
 
-#: inc/class-storefront.php:92
+#: inc/class-storefront.php:93
 #: inc/nux/class-storefront-nux-starter-content.php:162
 msgid "Primary Menu"
 msgstr "Menú principal"

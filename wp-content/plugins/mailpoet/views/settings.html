@@ -98,6 +98,15 @@
           } else {
             $('#settings_subscriber_email_notification_error').hide();
           }
+          var stats_notifications_enabled = $('input[name="stats_notifications[enabled]"]:checked').val(),
+            stats_notifications_address = $('input[name="stats_notifications[address]"]').val().trim();
+          if (stats_notifications_enabled && stats_notifications_address == '') {
+            $('#settings_stats_notifications_error').show();
+            window.location.href = '#basics';
+            errorFound = true;
+          } else {
+            $('#settings_stats_notifications_error').hide();
+          }
           // stop processing if an error was found
           if (errorFound) {
             return false;
@@ -182,6 +191,7 @@
         $('#settings_re_captcha_tokens_error').hide();
 
         $('#settings_subscriber_email_notification_error').hide();
+        $('#settings_stats_notifications_error').hide();
 
         function toggleLinuxCronSettings() {
           if ($('input[name="cron_trigger[method]"]:checked').val() === '<%= cron_trigger.linux_cron %>') {
@@ -212,6 +222,10 @@
     var mailpoet_installed_at = <%= json_encode(settings.installed_at) %>;
     <% set newUser = (is_new_user == true) ? 'true' : 'false' %>
     var mailpoet_is_new_user = <%= newUser %>;
+    var mailpoet_settings_sender_name = "<%= settings.sender.name %>";
+    var mailpoet_settings_sender_adddress = "<%= settings.sender.address %>";
+    var mailpoet_settings_reply_to_name = "<%= settings.reply_to.name %>";
+    var mailpoet_settings_reply_to_address = "<%= settings.reply_to.address %>";
   </script>
 <% endblock %>
 <% block translations %>
@@ -220,5 +234,8 @@
     'announcementHeader': __('Get notified when someone subscribes'),
     'announcementParagraph1': __('It’s been a popular feature request from our users, we hope you get lots of emails about all your new subscribers!'),
     'announcementParagraph2': __('(You can turn this feature off if it’s too many emails.)'),
+    'yourName': __('Your name'),
+    'from': __('From'),
+    'replyTo': __('Reply-to'),
   }) %>
 <% endblock %>

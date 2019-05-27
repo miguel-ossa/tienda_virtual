@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - WP Migrate DB - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-01-05 12:56:42+0000\n"
+"PO-Revision-Date: 2019-02-14 13:46:18+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,7 +11,54 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: Plugins - WP Migrate DB - Stable (latest release)\n"
 
-#: class/Common/Cli/Cli.php:734
+#: template/wpmdb/addon-upgrades.php:17
+msgid "to push and pull plugin files"
+msgstr "para enviar y recuperar archivos de plugin"
+
+#: template/wpmdb/addon-upgrades.php:17
+msgid "Plugin Files"
+msgstr "Archivos de plugin"
+
+#: template/wpmdb/addon-upgrades.php:10
+msgid "to push and pull theme files"
+msgstr "para enviar y recuperar archivos de tema"
+
+#: template/wpmdb/addon-upgrades.php:10
+msgid "Theme Files"
+msgstr "Archivos de tema"
+
+#: template/wpmdb/addon-upgrades.php:4
+msgid "to push and pull media files"
+msgstr "para enviar y recuperar archivos de medios"
+
+#: template/wpmdb/import-radio-button.php:4
+msgid "to import SQL files"
+msgstr "para importar archivos SQL"
+
+#: template/wpmdb/import-radio-button.php:4
+msgctxt "Import data from a SQL file"
+msgid "Import"
+msgstr "Importar"
+
+#: template/wpmdb/pull-push-radio-buttons.php:13
+msgid "to push data from this site to a remote site"
+msgstr "para enviar datos desde este sitio a un sitio remoto"
+
+#: template/wpmdb/pull-push-radio-buttons.php:13
+msgctxt "Export data to remote database"
+msgid "Push"
+msgstr "Enviar"
+
+#: template/wpmdb/pull-push-radio-buttons.php:4
+msgid "to pull remote data into this site"
+msgstr "para recuperar datos remotos a este sitio"
+
+#: template/wpmdb/pull-push-radio-buttons.php:4
+msgctxt "Import data from remote database"
+msgid "Pull"
+msgstr "Recuperar"
+
+#: class/Common/Cli/Cli.php:735
 msgid "--"
 msgstr "--"
 
@@ -59,6 +106,10 @@ msgstr "Realizando copia de seguridad"
 msgid "Push and pull your database from one WordPress install to another in&nbsp;1&#8209;click."
 msgstr "Exporta e importa tu base de datos de una instalación de WordPress a otra en&nbsp;1&#8209;click."
 
+#: template/wpmdb/pull-push-radio-buttons.php:4
+#: template/wpmdb/pull-push-radio-buttons.php:13
+#: template/wpmdb/import-radio-button.php:4 template/wpmdb/addon-upgrades.php:4
+#: template/wpmdb/addon-upgrades.php:10 template/wpmdb/addon-upgrades.php:17
 #: template/wpmdb/sidebar.php:4
 msgid "Upgrade to Pro"
 msgstr "Mejorar a Pro"
@@ -205,11 +256,11 @@ msgstr "El plugin de compatibilidad no se ha podido desactivar debido a que no e
 msgid "The compatibility plugin could not be activated because your mu-plugin directory is currently not writable.  Please update the permissions of the mu-plugins folder:  %s"
 msgstr "El plugin de compatibilidad no se ha podido activar debido a que no es posible escribir en el directorio de mu-plugin. Por favor, actualiza los permisos del directorio de mu-plugin: %s "
 
-#: class/Common/Cli/Cli.php:766
+#: class/Common/Cli/Cli.php:767
 msgid "Replace value is required."
 msgstr "Es necesario introducir un valor en reemplazar."
 
-#: class/Common/Cli/Cli.php:759
+#: class/Common/Cli/Cli.php:760
 msgid "Find value is required."
 msgstr "Es necesario introducir un valor en buscar."
 
@@ -217,11 +268,11 @@ msgstr "Es necesario introducir un valor en buscar."
 msgid "Missing path to import file. Use --import-file=/path/to/import.sql.gz"
 msgstr "Falta la ruta para acceder al archivo de importación. Usa --import-file=/path/to/import.sql.gz"
 
-#: class/Common/Http/RemotePost.php:205
+#: class/Common/Http/RemotePost.php:204
 msgid "Unable to connect to the remote server, the remote server responded with: %1$s %2$s (scope: %3$s)"
 msgstr "No ha sido posible conectarse al servidor remoto, el servidor remoto respondió con: %1$s %2$s (alcance: %3$s)"
 
-#: class/Common/Properties/Properties.php:71
+#: class/Common/Properties/Properties.php:73
 msgctxt "Ex. Remote URL: http://wp.dev"
 msgid " Remote URL: %s "
 msgstr "URL remota: %s"
@@ -230,7 +281,7 @@ msgstr "URL remota: %s"
 msgid "<p><strong>Export Failed</strong> — We can't save your export to the following folder:<br><strong>%s</strong></p><p>Please adjust the permissions on this folder. <a href=\"%s\" target=\"_blank\">See our documentation for more information »</a></p>"
 msgstr "<p><strong>Falló la exportación</strong> — No podemos guardar la exportación en la siguiente carpeta:<br><strong>%s</strong></p><p>Por favor, haz ajustes en los permisos de esa carpeta. <a href=\"%s\" target=\"_blank\">Consulta nuestra documentación para obtener más información »</a></p>"
 
-#: class/Common/Util/Util.php:197
+#: class/Common/Util/Util.php:200
 msgid "WPMDB Error: Data cannot be unserialized. %s"
 msgstr "WPDM Error: Los datos no pueden ser deserializados. %s"
 
@@ -312,7 +363,7 @@ msgstr "Buscar y reemplazar en pausa"
 msgid "Error creating temporary table. Table \"%s\" does not exist."
 msgstr "Error creando una tabla temporal. La tabla \"%s\" no existe."
 
-#: class/Common/Util/Util.php:196
+#: class/Common/Util/Util.php:199
 msgid "Scope: %s()."
 msgstr "Alcance: %s()."
 
@@ -320,7 +371,7 @@ msgstr "Alcance: %s()."
 msgid "Find & Replace complete"
 msgstr "Buscar y reemplazar completo"
 
-#: class/Common/Cli/Cli.php:756
+#: class/Common/Cli/Cli.php:757
 msgid "Missing find and replace values."
 msgstr "Faltan los valores de buscar y reemplazar"
 
@@ -328,11 +379,11 @@ msgstr "Faltan los valores de buscar y reemplazar"
 msgid "Running find & replace"
 msgstr "Buscar y reemplazar en curso"
 
-#: class/Common/Http/RemotePost.php:182
+#: class/Common/Http/RemotePost.php:181
 msgid "<strong>HTTPS Connection Error:</strong>  (#121 - scope: %s) This typically means that the version of OpenSSL that your local site is using to connect to the remote is incompatible or, more likely, being rejected by the remote server because it's insecure. <a href=\"%s\" target=\"_blank\">See our documentation</a> for possible solutions."
 msgstr "<strong>Error de conexión SSL:</strong>  (#121 - alcance: %s) Esto normalmente significa que la versión de SSL que utilizas el sitio local para conectar con el remoto es incompatible o, más probablemente, que ha sido rechazado por el servidor remoto porque no es seguro. <a href=\"%s\" target=\"_blank\">Consulta la documentación</a> para posibles soluciones."
 
-#: class/Common/Http/RemotePost.php:180
+#: class/Common/Http/RemotePost.php:179
 msgid "Couldn't connect over HTTPS. You might want to try regular HTTP instead. (#121 - scope: %s)"
 msgstr "No hemos podido conectarnos a través de HTTPS. Podrías querer intentarlo a través de HTTP en su lugar. (#121 - función: %s)"
 
@@ -364,7 +415,7 @@ msgstr "CLI"
 msgid "Allows you to push and pull your files in the Media Library between two WordPress installs. It can compare both libraries and only migrate those missing or updated, or it can do a complete copy of one site's library to another. <a href=\"%s\">More Details &rarr;</a>"
 msgstr "Te permite exportar e importar archivos de la Librería de Medios entre dos instalaciones de WordPress. Compara ambas librerías y solo migra aquéllos archivos que falten o hayan sido actualizados, o puede hacer una copia completa de una librería a otra. <a href=\"%s\">Más detalles &rarr;</a> "
 
-#: template/addons.php:27
+#: template/wpmdb/addon-upgrades.php:4 template/addons.php:27
 msgid "Media Files"
 msgstr "Multimedia"
 
@@ -485,15 +536,15 @@ msgstr "Addons"
 msgid "%1$s was expecting JSON data but got something else: \"%2$s\""
 msgstr "%1$s esperaba datos JSON, pero recibió otra cosa: \"%2$s\""
 
-#: class/Common/Cli/Cli.php:726
+#: class/Common/Cli/Cli.php:727
 msgid "Please make sure that you have activated the appropriate addons for WP Migrate DB Pro."
 msgstr "Por favor, asegúrate de que has activado los addons adecuados de WP Migrate DB Pro."
 
-#: class/Common/Cli/Cli.php:722
+#: class/Common/Cli/Cli.php:723
 msgid "unknown %s parameter"
 msgstr "parámetro %s desconocido"
 
-#: class/Common/Cli/Cli.php:720
+#: class/Common/Cli/Cli.php:721
 msgid "Parameter errors: "
 msgstr "Errores de parámetro:"
 
@@ -847,7 +898,7 @@ msgstr "¡Vaya! Hemos detectado que su sitio <b>local</b> tiene la configuració
 msgid "Warning: Mixed Case Table Names"
 msgstr "Advertencia: Nombres de la tabla de casos mezclados"
 
-#: class/Common/Sql/TableHelper.php:132
+#: class/Common/Sql/TableHelper.php:129
 msgid "The source site supports utf8mb4 data but the target does not, aborting migration to avoid possible data corruption. Please see %1$s for more information. (#148)"
 msgstr "El sitio de origen soporta datos en utf8mb4 pero el destino no, abortando migración para evitar posible corrupción de datos. Por favor consulta %1$s para más información. (#148)"
 
@@ -859,11 +910,11 @@ msgstr "WP Migrate DB y WP Migrate DB Pro no pueden estar activos a la vez. Hemo
 msgid "WP Migrate DB and WP Migrate DB Pro cannot both be active. We've automatically deactivated WP Migrate DB."
 msgstr "WP Migrate DB y WP Migrate DB Pro no pueden estar activos a la vez. Hemos desactivado automáticamente WP Migrate DB."
 
-#: class/Common/BackupExport.php:86
+#: class/Common/BackupExport.php:89
 msgid "Could not delete the MySQL export file."
 msgstr "No se ha podido eliminar el archivo de exportación MySQL."
 
-#: class/Common/BackupExport.php:80
+#: class/Common/BackupExport.php:83
 msgid "MySQL export file not found."
 msgstr "Archivo de exportación de MySQLno encontrado."
 
@@ -1197,13 +1248,13 @@ msgstr "Ha ocurrido un error intentado comprobar la licencia, por favor inténta
 msgid "A problem occurred when trying to change the maximum request size, please try again."
 msgstr "Ha ocurrido un error intentado cambiar el tamaño máximo de petición, por favor inténtalo de nuevo. "
 
-#: class/Common/Plugin/Menu.php:60 class/Common/Plugin/Menu.php:90
-#: class/Common/Plugin/PluginManagerBase.php:324 template/options.php:7
+#: class/Common/Plugin/Menu.php:59 class/Common/Plugin/Menu.php:89
+#: class/Common/Plugin/PluginManagerBase.php:327 template/options.php:7
 msgid "Migrate DB"
 msgstr "Migrate DB"
 
-#: class/Common/Plugin/Menu.php:60 class/Common/Plugin/Menu.php:90
-#: class/Common/Plugin/PluginManagerBase.php:324
+#: class/Common/Plugin/Menu.php:59 class/Common/Plugin/Menu.php:89
+#: class/Common/Plugin/PluginManagerBase.php:327
 msgid "Migrate DB Pro"
 msgstr "Migrate DB Pro"
 
@@ -1215,23 +1266,23 @@ msgstr "Error al escribir los datos SQL en el archivo. (#128)"
 msgid "Failed to write the gzipped SQL data to the file. (#127)"
 msgstr "Error al escribir los datos SQL comprimidos (gzipped) en el archivo. (#127)"
 
-#: class/Common/Sql/Table.php:1843
+#: class/Common/Sql/Table.php:1845
 msgid "Database: %s"
 msgstr "Base de datos: %s"
 
-#: class/Common/Sql/Table.php:1842
+#: class/Common/Sql/Table.php:1844
 msgid "Hostname: %s"
 msgstr "Hostname: %s"
 
-#: class/Common/Sql/Table.php:1841
+#: class/Common/Sql/Table.php:1843
 msgid "Generated: %s"
 msgstr "Generado: %s"
 
-#: class/Common/Sql/Table.php:1839
+#: class/Common/Sql/Table.php:1841
 msgid "WordPress MySQL database migration"
 msgstr "Migración de la base de datos MySQL de WordPress"
 
-#: class/Common/Sql/Table.php:1721
+#: class/Common/Sql/Table.php:1723
 msgid "End of data contents of table %s"
 msgstr "Fin de los contenidos de datos de la tabla %s"
 
@@ -1345,15 +1396,15 @@ msgstr "Exportar guardado en:%s"
 msgid "WP Migrate DB CLI class not available."
 msgstr "La clase WP Migrate DB CLI no está disponible."
 
-#: class/Common/Cli/Cli.php:818
+#: class/Common/Cli/Cli.php:819
 msgid "Cannot write to file \"%1$s\". Please ensure that the specified directory exists and is writable."
 msgstr "No se ha podido escribir en el archivo \"%1$s\". Por favor asegúrate de que el directorio especificado existe y tiene permisos de escritura."
 
-#: class/Common/Cli/Cli.php:770
+#: class/Common/Cli/Cli.php:771
 msgid "%1$s and %2$s must contain the same number of values"
 msgstr "%1$s y %2$s deben contener el mismo número de valores"
 
-#: class/Common/Cli/Cli.php:739
+#: class/Common/Cli/Cli.php:740
 msgid "Missing action parameter"
 msgstr "Falta el parámetro de acción"
 
@@ -1361,7 +1412,7 @@ msgstr "Falta el parámetro de acción"
 msgid "You must provide a destination filename."
 msgstr "Debe proporcionar un nombre de archivo de destino."
 
-#: class/Common/Cli/Cli.php:659
+#: class/Common/Cli/Cli.php:660
 msgid "Unable to move exported file."
 msgstr "No ha sido posible mover el archivo exportado."
 
@@ -1389,11 +1440,11 @@ msgstr "Estábamos esperando una respuesta JSON, en su lugar hemos recibido: %2$
 msgid "The following table(s) do not exist in the %1$s database: %2$s"
 msgstr "La siguiente(s) tabla(s) no existe en la base de datos %1$s: %2$s"
 
-#: class/Common/MigrationState/MigrationStateManager.php:102
+#: class/Common/MigrationState/MigrationStateManager.php:108
 msgid "Failed to retrieve migration state. Please contact support."
 msgstr "No se pudo recuperar el estado de la migración. Por favor, ponte en contacto con soporte."
 
-#: class/Common/MigrationState/MigrationStateManager.php:80
+#: class/Common/MigrationState/MigrationStateManager.php:86
 msgid "Failed to save migration state. Please contact support."
 msgstr "Error al guardar el estado de migración. Póngase en contacto con soporte."
 
@@ -1406,11 +1457,11 @@ msgctxt "dismiss notice permanently"
 msgid "Dismiss"
 msgstr "Descartar"
 
-#: class/Common/Http/Http.php:78
+#: class/Common/Http/Http.php:82
 msgid "Access denied for: %s"
 msgstr "Acceso denegado para: %s"
 
-#: class/Common/Http/Http.php:70
+#: class/Common/Http/Http.php:74
 msgid "Invalid nonce for: %s"
 msgstr "Valor nonce no válido para: %s"
 
@@ -1419,54 +1470,54 @@ msgctxt "Plugin configuration and preferences"
 msgid "Settings"
 msgstr "Ajustes"
 
-#: class/Common/Http/RemotePost.php:249
+#: class/Common/Http/RemotePost.php:248
 msgid "There was a problem with the AJAX request, we were expecting a serialized response, instead we received:<br />"
 msgstr "Hubo un problema con la petición AJAX, estábamos esperando una respuesta serializada, en su lugar hemos recibido:<br />"
 
-#: class/Common/Http/RemotePost.php:239 class/Common/Sql/TableHelper.php:132
+#: class/Common/Http/RemotePost.php:238 class/Common/Sql/TableHelper.php:129
 msgid "our documentation"
 msgstr "nuestra documentación"
 
-#: class/Common/Http/RemotePost.php:239
+#: class/Common/Http/RemotePost.php:238
 msgid "A response was expected from the remote, instead we got nothing. (#146 - scope: %1$s) Please review %2$s for possible solutions."
 msgstr "Esperábamos una respuesta desde el sitio remoto, en su lugar no tuvimos nada. (#146 - alcance: %1$s) Por favor revisa %2$s para posibles soluciones."
 
-#: class/Common/Http/RemotePost.php:233
+#: class/Common/Http/RemotePost.php:232
 msgid "WP Migrate DB Pro does not seem to be installed or active on the remote site. (#131 - scope: %s)"
 msgstr "WP Migrate DB Pro no parece estar instalado o activo en el sitio remoto. (#131 - alcance: %s)"
 
-#: class/Common/Http/RemotePost.php:217
+#: class/Common/Http/RemotePost.php:216
 msgid "Unable to connect to the remote server, please check the connection details - %1$s %2$s (#129 - scope: %3$s)"
 msgstr "No ha sido posible conectarse al servidor remoto, por favor comprueba los detalles de conexión - %1$s %2$s (#129 - alcance: %3$s)"
 
-#: class/Common/Http/RemotePost.php:197
+#: class/Common/Http/RemotePost.php:196
 msgid "The remote site is protected with Basic Authentication. Please enter the username and password above to continue. (401 Unauthorized)"
 msgstr "El sitio remoto está protegido con identificación básica. Por favor introduce el nombre de usuario y contraseña encima para continuar. (401 sin autorización)"
 
-#: class/Common/Http/RemotePost.php:184
+#: class/Common/Http/RemotePost.php:183
 msgid "The connection failed, an unexpected error occurred, please contact support. (#121 - scope: %s)"
 msgstr "La conexión falló, se produjo un error inesperado, por favor ponte en contacto con soporte (#121 -  alcance: %s)"
 
-#: class/Common/Http/RemotePost.php:177
+#: class/Common/Http/RemotePost.php:176
 msgid "We've detected that <code>WP_HTTP_BLOCK_EXTERNAL</code> is enabled and the host <strong>%1$s</strong> has not been added to <code>WP_ACCESSIBLE_HOSTS</code>. Please disable <code>WP_HTTP_BLOCK_EXTERNAL</code> or add <strong>%1$s</strong> to <code>WP_ACCESSIBLE_HOSTS</code> to continue. <a href=\"%2$s\" target=\"_blank\">More information</a>. (#147 - scope: %3$s)"
 msgstr "Hemos detectado que <code>WP_HTTP_BLOCK_EXTERNAL</code> está activado y el host <strong>%1$s</strong> no ha sido añadido a <code>WP_ACCESSIBLE_HOSTS</code>. Por favor desactiva <code>WP_HTTP_BLOCK_EXTERNAL</code> o añade <strong>%1$s</strong> a <code>WP_ACCESSIBLE_HOSTS</code> para continuar. <a href=\"%2$s\" target=\"_blank\">Más información</a>. (#147 - alcance: %3$s)"
 
-#: class/Common/Http/RemotePost.php:169
+#: class/Common/Http/RemotePost.php:168
 msgid "It appears that you might be trying to push to a local environment. This will not work if <u>this</u> website happens to be located on a remote server, it would be impossible for this server to contact your local environment."
 msgstr "Parece que usted podría estar tratando de subir a un entorno local. Esto no funcionará si <u>este</u> sitio Web está alojado en en un servidor remoto, sería imposible para este servidor contactar con tu entorno local."
 
-#: class/Common/Http/RemotePost.php:167
+#: class/Common/Http/RemotePost.php:166
 msgid "It appears that you might be trying to pull from a local environment. This will not work if <u>this</u> website happens to be located on a remote server, it would be impossible for this server to contact your local environment."
 msgstr "Parece que puedes estar intentando llamar desde un entorno local. Esto no funcionará si <u>este</u> sitio Web está alojado en un servidor remoto, sería imposible para ese servidor contactar con su entorno local."
 
-#: class/Common/Http/RemotePost.php:161
+#: class/Common/Http/RemotePost.php:160
 msgid "We could not find: %s. Are you sure this is the correct URL?"
 msgstr "No hemos podido encontrar: %s. ¿Estás seguro de que esta es la URL correcta?"
 
-#: class/Common/Http/RemotePost.php:159
+#: class/Common/Http/RemotePost.php:158
 msgid "The connection to the remote server has timed out, no changes have been committed. (#134 - scope: %s)"
 msgstr "Se ha agotado el tiempo máximo de conexión al servidor remoto, no se han enviado cambios. (#134 - scope: %s)"
 
-#: class/Common/Properties/Properties.php:71
+#: class/Common/Properties/Properties.php:73
 msgid "Invalid content verification signature, please verify the connection information on the remote site and try again."
 msgstr "Firma de verificación de contenido no válida, por favor verifique la información de conexión en el sitio remoto y vuelva a intentarlo."

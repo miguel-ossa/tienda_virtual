@@ -2,8 +2,8 @@
 
 namespace MailPoet\Newsletter\Shortcodes\Categories;
 
-use MailPoet\Models\Setting;
 use MailPoet\Newsletter\Url as NewsletterUrl;
+use MailPoet\Settings\SettingsController;
 use MailPoet\Statistics\Track\Unsubscribes;
 use MailPoet\Subscription\Url as SubscriptionUrl;
 
@@ -18,7 +18,7 @@ class Link {
     $content,
     $wp_user_preview
   ) {
-    switch($shortcode_details['action']) {
+    switch ($shortcode_details['action']) {
       case 'subscription_unsubscribe_url':
         return self::processUrl(
           $shortcode_details['action'],
@@ -62,8 +62,9 @@ class Link {
   }
 
   static function processUrl($action, $url, $queue, $wp_user_preview = false) {
-    if($wp_user_preview) return $url;
-    return ($queue !== false && (boolean)Setting::getValue('tracking.enabled')) ?
+    if ($wp_user_preview) return $url;
+    $settings = new SettingsController();
+    return ($queue !== false && (boolean)$settings->get('tracking.enabled')) ?
       self::getFullShortcode($action) :
       $url;
   }
@@ -71,10 +72,11 @@ class Link {
   static function processShortcodeAction(
     $shortcode_action, $newsletter, $subscriber, $queue, $wp_user_preview
   ) {
-    switch($shortcode_action) {
+    switch ($shortcode_action) {
       case 'subscription_unsubscribe_url':
+        $settings = new SettingsController();
         // track unsubscribe event
-        if((boolean)Setting::getValue('tracking.enabled') && !$wp_user_preview) {
+        if ((boolean)$settings->get('tracking.enabled') && !$wp_user_preview) {
           $unsubscribe_event = new Unsubscribes();
           $unsubscribe_event->track($newsletter->id, $subscriber->id, $queue->id);
         }

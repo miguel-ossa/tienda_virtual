@@ -8,11 +8,13 @@ use MailPoet\Cron\Workers\SendingQueue\SendingQueue as SendingQueueWorker;
 use MailPoet\Cron\Workers\Bounce as BounceWorker;
 use MailPoet\Cron\Workers\KeyCheck\PremiumKeyCheck as PremiumKeyCheckWorker;
 use MailPoet\Cron\Workers\KeyCheck\SendingServiceKeyCheck as SendingServiceKeyCheckWorker;
+use MailPoet\Cron\Workers\StatsNotifications\Worker;
 use MailPoet\Mailer\MailerLog;
 use MailPoet\Models\Setting;
 use MailPoet\Services\Bridge;
+use MailPoet\Settings\SettingsController;
 
-if(!defined('ABSPATH')) exit;
+if (!defined('ABSPATH')) exit;
 
 class WordPress {
   static function run() {
@@ -23,7 +25,8 @@ class WordPress {
 
   static function checkExecutionRequirements() {
     // migration
-    $migration_disabled = Setting::getValue('cron_trigger.method') === 'none';
+    $settings = new SettingsController();
+    $migration_disabled = $settings->get('cron_trigger.method') === 'none';
     $migration_due_tasks = MigrationWorker::getDueTasks();
     $migration_completed_tasks = MigrationWorker::getCompletedTasks();
     $migration_future_tasks = MigrationWorker::getFutureTasks();
@@ -44,6 +47,8 @@ class WordPress {
     $premium_key_specified = Bridge::isPremiumKeySpecified();
     $premium_keycheck_due_tasks = PremiumKeyCheckWorker::getDueTasks();
     $premium_keycheck_future_tasks = PremiumKeyCheckWorker::getFutureTasks();
+    // stats notifications
+    $stats_notifications_tasks = (bool)Worker::getDueTasks();
     // check requirements for each worker
     $sending_queue_active = (($scheduled_queues || $running_queues) && !$sending_limit_reached && !$sending_is_paused);
     $bounce_sync_active = ($mp_sending_enabled && ($bounce_due_tasks || !$bounce_future_tasks));
@@ -57,12 +62,13 @@ class WordPress {
       || $bounce_sync_active
       || $sending_service_key_check_active
       || $premium_key_check_active
+      || $stats_notifications_tasks
     );
   }
 
   static function stop() {
     $cron_daemon = CronHelper::getDaemon();
-    if($cron_daemon) {
+    if ($cron_daemon) {
       CronHelper::deactivateDaemon($cron_daemon);
     }
   }

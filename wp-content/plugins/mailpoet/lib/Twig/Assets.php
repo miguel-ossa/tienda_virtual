@@ -2,7 +2,7 @@
 
 namespace MailPoet\Twig;
 
-if(!defined('ABSPATH')) exit;
+if (!defined('ABSPATH')) exit;
 
 class Assets extends \Twig_Extension {
   const CDN_URL = 'https://ps.w.org/mailpoet/';
@@ -41,9 +41,9 @@ class Assets extends \Twig_Extension {
     $stylesheets = func_get_args();
     $output = array();
 
-    foreach($stylesheets as $stylesheet) {
+    foreach ($stylesheets as $stylesheet) {
       $output[] = sprintf(
-        '<link rel="stylesheet" type="text/css" href="%s/css/%s" />',
+        '<link rel="stylesheet" type="text/css" href="%s/dist/css/%s" />',
         $this->_globals['assets_url'],
         $this->getAssetFilename($this->_globals['assets_manifest_css'], $stylesheet)
       );
@@ -56,11 +56,12 @@ class Assets extends \Twig_Extension {
     $scripts = func_get_args();
     $output = array();
 
-    foreach($scripts as $script) {
+    foreach ($scripts as $script) {
       $output[] = sprintf(
-        '<script type="text/javascript" src="%s/js/%s"></script>',
+        '<script type="text/javascript" src="%s/%s/%s"></script>',
         $this->_globals['assets_url'],
-        $this->getAssetFilename($this->_globals['assets_manifest_js'], $script)
+        strpos($script, 'lib/') === 0 ? 'js' : 'dist/js',
+        $this->getAssetFileName($this->_globals['assets_manifest_js'], $script)
       );
     }
 

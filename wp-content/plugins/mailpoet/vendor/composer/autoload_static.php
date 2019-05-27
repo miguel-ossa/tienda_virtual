@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit2b3bdfd9c0a562634b9d78f41c66a970
+class ComposerStaticInitf0552d859be84e4ae6fe1a5d575e3c7a
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -40,6 +40,7 @@ class ComposerStaticInit2b3bdfd9c0a562634b9d78f41c66a970
         'C' => 
         array (
             'Cron\\' => 5,
+            'Codeception\\Extension\\' => 22,
         ),
     );
 
@@ -88,6 +89,10 @@ class ComposerStaticInit2b3bdfd9c0a562634b9d78f41c66a970
         array (
             0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron',
         ),
+        'Codeception\\Extension\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/redcomponent/teststatistics/src',
+        ),
     );
 
     public static $fallbackDirsPsr4 = array (
@@ -100,13 +105,6 @@ class ComposerStaticInit2b3bdfd9c0a562634b9d78f41c66a970
             'Twig_' => 
             array (
                 0 => __DIR__ . '/..' . '/twig/twig/lib',
-            ),
-        ),
-        'S' => 
-        array (
-            'Sabberworm\\CSS' => 
-            array (
-                0 => __DIR__ . '/..' . '/sabberworm/php-css-parser/lib',
             ),
         ),
     );
@@ -223,6 +221,42 @@ class ComposerStaticInit2b3bdfd9c0a562634b9d78f41c66a970
         'MailPoetVendor\\Psr\\Log\\Test\\DummyTest' => __DIR__ . '/../..' . '/vendor-prefixed/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
         'MailPoetVendor\\Psr\\Log\\Test\\LoggerInterfaceTest' => __DIR__ . '/../..' . '/vendor-prefixed/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
         'MailPoetVendor\\Psr\\Log\\Test\\TestLogger' => __DIR__ . '/../..' . '/vendor-prefixed/psr/log/Psr/Log/Test/TestLogger.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\CSSList\\AtRuleBlockList' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/CSSList/AtRuleBlockList.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\CSSList\\CSSBlockList' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/CSSList/CSSBlockList.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\CSSList\\CSSList' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/CSSList/CSSList.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\CSSList\\Document' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/CSSList/Document.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\CSSList\\KeyFrame' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/CSSList/KeyFrame.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Comment\\Comment' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Comment/Comment.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Comment\\Commentable' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Comment/Commentable.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\OutputFormat' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/OutputFormat.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\OutputFormatter' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/OutputFormat.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Parser' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Parser.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Parsing\\OutputException' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Parsing/OutputException.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Parsing\\SourceException' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Parsing/SourceException.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Parsing\\UnexpectedTokenException' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Parsing/UnexpectedTokenException.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Property\\AtRule' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Property/AtRule.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Property\\CSSNamespace' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Property/CSSNamespace.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Property\\Charset' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Property/Charset.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Property\\Import' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Property/Import.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Property\\Selector' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Property/Selector.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Renderable' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Renderable.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\RuleSet\\AtRuleSet' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/RuleSet/AtRuleSet.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\RuleSet\\DeclarationBlock' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/RuleSet/DeclarationBlock.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\RuleSet\\RuleSet' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/RuleSet/RuleSet.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Rule\\Rule' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Rule/Rule.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Settings' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Settings.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Value\\CSSFunction' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Value/CSSFunction.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Value\\CSSString' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Value/CSSString.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Value\\CalcFunction' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Value/CalcFunction.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Value\\CalcRuleValueList' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Value/CalcRuleValueList.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Value\\Color' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Value/Color.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Value\\LineName' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Value/LineName.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Value\\PrimitiveValue' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Value/PrimitiveValue.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Value\\RuleValueList' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Value/RuleValueList.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Value\\Size' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Value/Size.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Value\\URL' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Value/URL.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Value\\Value' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Value/Value.php',
+        'MailPoetVendor\\Sabberworm\\CSS\\Value\\ValueList' => __DIR__ . '/../..' . '/vendor-prefixed/sabberworm/php-css-parser/lib/Sabberworm/CSS/Value/ValueList.php',
         'MailPoetVendor\\Symfony\\Component\\DependencyInjection\\Alias' => __DIR__ . '/../..' . '/vendor-prefixed/symfony/dependency-injection/Alias.php',
         'MailPoetVendor\\Symfony\\Component\\DependencyInjection\\Argument\\ArgumentInterface' => __DIR__ . '/../..' . '/vendor-prefixed/symfony/dependency-injection/Argument/ArgumentInterface.php',
         'MailPoetVendor\\Symfony\\Component\\DependencyInjection\\Argument\\BoundArgument' => __DIR__ . '/../..' . '/vendor-prefixed/symfony/dependency-injection/Argument/BoundArgument.php',
@@ -407,11 +441,11 @@ class ComposerStaticInit2b3bdfd9c0a562634b9d78f41c66a970
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit2b3bdfd9c0a562634b9d78f41c66a970::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit2b3bdfd9c0a562634b9d78f41c66a970::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInit2b3bdfd9c0a562634b9d78f41c66a970::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit2b3bdfd9c0a562634b9d78f41c66a970::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit2b3bdfd9c0a562634b9d78f41c66a970::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitf0552d859be84e4ae6fe1a5d575e3c7a::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitf0552d859be84e4ae6fe1a5d575e3c7a::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInitf0552d859be84e4ae6fe1a5d575e3c7a::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitf0552d859be84e4ae6fe1a5d575e3c7a::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitf0552d859be84e4ae6fe1a5d575e3c7a::$classMap;
 
         }, null, ClassLoader::class);
     }
